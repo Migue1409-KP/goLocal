@@ -7,12 +7,12 @@ import co.uco.golocal.golocalapi.data.entity.usuario.UsuarioEntity;
 import java.util.UUID;
 
 @Repository
-public interface IUsuarioRepositorio extends JpaRepository<UsuarioEntity, UUID>{
+public interface IUserRepository extends JpaRepository<UsuarioEntity, UUID>{
 
-    boolean existsByCorreo(String correo);
-    boolean existsByNumeroContacto(String numeroContacto);
-    boolean existsByIdentificacion(String identificacion);
-    UsuarioEntity findByCorreo(String correo);
+    boolean existsByEmail(String email);
+    boolean existsByPhone(String phone);
+    boolean existsByTaxId(String taxId);
+    UsuarioEntity findByEmail(String email);
     boolean existsById(UUID id);
 
 }
