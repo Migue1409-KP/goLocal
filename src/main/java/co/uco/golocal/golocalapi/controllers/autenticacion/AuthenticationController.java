@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/rest/autenticacion")
-public class AutenticacionController {
+public class AuthenticationController {
 
     private final JwtUtilidad jwtUtilidad;
     private final AuthenticationManager authenticationManager;
 
-    public AutenticacionController(JwtUtilidad jwtUtilidad, AuthenticationManager authenticationManager) {
+    public AuthenticationController(JwtUtilidad jwtUtilidad, AuthenticationManager authenticationManager) {
         this.jwtUtilidad = jwtUtilidad;
         this.authenticationManager = authenticationManager;
     }
@@ -28,7 +28,7 @@ public class AutenticacionController {
     public ResponseEntity<String> createAuthenticationToken(@RequestBody UserDomain usuarioDomain) {
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(usuarioDomain.getCorreo(), usuarioDomain.getContrasena()));
+                new UsernamePasswordAuthenticationToken(usuarioDomain.getEmail(), usuarioDomain.getPassword()));
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 

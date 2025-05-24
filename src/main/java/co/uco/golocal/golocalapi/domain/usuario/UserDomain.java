@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
 import java.util.UUID;
 
 @Component
@@ -17,33 +20,14 @@ import java.util.UUID;
 public class UserDomain {
 
     private UUID id;
-    private String nombre;
-    private String apellido;
-    private String tipoIdentificacion;
-    private String identificacion;
-    private String contrasena;
-    private String correo;
-    private String rol;
-    private String ciudad;
-    private String direccion;
-    private String correoEmergencia;
-    private String numeroContacto;
-
-
-    public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                "\n nombre='" + nombre + '\'' +
-                ",\n apellido='" + apellido + '\'' +
-                ",\n tipoId='" + tipoIdentificacion + '\'' +
-                ",\n numeroId='" + identificacion + '\'' +
-                ",\n correo='" + correo + '\'' +
-                ",\n rol=" + rol +
-                ",\n ciudad='" + ciudad + '\'' +
-                ",\n direccion='" + direccion + '\'' +
-                ",\n correoEmergencia='" + correoEmergencia + '\'' +
-                ",\n numeroContacto='" + numeroContacto + '\'' +
-                '}';
-    }
+    private String name;
+    private String lastName;
+    private String phone;
+    private String taxId;
+    private String role;
+    private String email;
+    private String password;
+    private Date createdAt;
+    private Date updatedAt;
 }
 

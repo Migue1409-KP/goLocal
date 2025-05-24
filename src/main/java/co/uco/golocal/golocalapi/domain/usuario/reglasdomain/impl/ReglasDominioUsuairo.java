@@ -19,8 +19,8 @@ public class ReglasDominioUsuairo {
     }
 
     public void validacionReglasDominio(UserDomain usuarioDomain){
-        unicoEmailRegla.validacionReglaEmail(usuarioDomain.getCorreo());
-        unicoTipoNumeroIdRegla.validacionReglaNumeroId(usuarioDomain.getIdentificacion());
-        unicoNumeroContactoRegla.validacionReglaNumeroContacto(usuarioDomain.getNumeroContacto());
+        unicoEmailRegla.validacionReglaEmail(usuarioDomain.getEmail());
+        unicoTipoNumeroIdRegla.validacionReglaNumeroId(usuarioDomain.getTaxId());
+        unicoNumeroContactoRegla.validacionReglaNumeroContacto(usuarioDomain.getPhone());
     }
 }

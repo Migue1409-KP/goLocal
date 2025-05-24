@@ -12,20 +12,17 @@ public class ValidacionesUsuarioImpl {
     private ValidacionIdentificacionUsuario validacionIdentificacionUsuario;
     private ValidacionCorreoUsuario validacionCorreoUsuario;
     private ValidacionContaseniaUsuario validacionContaseniaUsuario;
-    private ValidacionDireccionUsuario validacionDireccionUsuario;
     private ValidacionNumeroTelefonoUsuario validacionNumeroTelefonoUsuario;
 
     public ValidacionesUsuarioImpl(ValidacionNombreCompletoUsuario validacionNombreCompletoUsuario,
                                    ValidacionIdentificacionUsuario validacionIdentificacionUsuario,
                                    ValidacionCorreoUsuario validacionCorreoUsuario,
                                    ValidacionContaseniaUsuario validacionContaseniaUsuario,
-                                   ValidacionDireccionUsuario validacionDireccionUsuario,
                                    ValidacionNumeroTelefonoUsuario validacionNumeroTelefonoUsuario) {
         this.validacionNombreCompletoUsuario = validacionNombreCompletoUsuario;
         this.validacionIdentificacionUsuario = validacionIdentificacionUsuario;
         this.validacionCorreoUsuario = validacionCorreoUsuario;
         this.validacionContaseniaUsuario = validacionContaseniaUsuario;
-        this.validacionDireccionUsuario = validacionDireccionUsuario;
         this.validacionNumeroTelefonoUsuario = validacionNumeroTelefonoUsuario;
     }
 
@@ -33,16 +30,12 @@ public class ValidacionesUsuarioImpl {
 
         validacionNombreCompletoUsuario.execute(usuarioDomain);
 
-        validacionIdentificacionUsuario.execute(usuarioDomain.getIdentificacion());
+        validacionIdentificacionUsuario.execute(usuarioDomain.getTaxId());
 
-        validacionCorreoUsuario.execute(usuarioDomain.getCorreo());
+        validacionCorreoUsuario.execute(usuarioDomain.getEmail());
 
-        validacionContaseniaUsuario.execute(usuarioDomain.getContrasena());
+        validacionContaseniaUsuario.execute(usuarioDomain.getPassword());
 
-        validacionDireccionUsuario.execute(usuarioDomain.getDireccion());
-
-        validacionNumeroTelefonoUsuario.execute(usuarioDomain.getNumeroContacto());
-
-        validacionCorreoUsuario.execute(usuarioDomain.getCorreoEmergencia());
+        validacionNumeroTelefonoUsuario.execute(usuarioDomain.getPhone());
     }
 }

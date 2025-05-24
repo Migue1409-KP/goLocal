@@ -6,7 +6,7 @@ import co.uco.golocal.golocalapi.domain.usuario.UserDomain;
 import co.uco.golocal.golocalapi.domain.usuario.reglas.validaciones.impl.ValidacionesUsuarioImpl;
 import co.uco.golocal.golocalapi.domain.usuario.reglasdomain.impl.ReglasDominioUsuairo;
 import co.uco.golocal.golocalapi.repository.usuario.IUsuarioRepositorio;
-import co.uco.golocal.golocalapi.service.usuario.UsuarioService;
+import co.uco.golocal.golocalapi.service.usuario.UserService;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ public class TestUserDomain {
     @Mock
     private IUsuarioMapperEntity iUsuarioMapperEntity;
     @InjectMocks
-    private UsuarioService usuarioService;
+    private UserService userService;
 
 
     @Test
@@ -48,7 +48,7 @@ public class TestUserDomain {
         // Configura el mock para que devuelva un Optional con el usuario cuando se llame findById
         when(usuarioRepositorio.findById(id)).thenReturn(Optional.of(usuarioEsperado));
         // Llama al método del servicio
-        var usuarioObtenido = usuarioService.consultarUsuarioPorId(id);
+        var usuarioObtenido = userService.consultarUsuarioPorId(id);
         // Verifica que el resultado no sea nulo y que esté presente
         assertTrue(usuarioObtenido.isPresent(), "El usuario obtenido debería estar presente");
         assertEquals(usuarioEsperado, usuarioObtenido.get(), "El usuario obtenido debería ser el esperado");
@@ -63,9 +63,9 @@ public class TestUserDomain {
         UsuarioEntity usuarioEsperado = new UsuarioEntity();
         usuarioEsperado.setId(id);
         when(usuarioRepositorio.findById(id)).thenReturn(Optional.of(usuarioEsperado));
-        usuarioService.delete(id);
+        userService.delete(id);
         when(usuarioRepositorio.findById(id)).thenReturn(Optional.empty());
-        var usuarioObtenido = usuarioService.consultarUsuarioPorId(id);
+        var usuarioObtenido = userService.consultarUsuarioPorId(id);
         assertTrue(usuarioObtenido.isEmpty(), "El usuario obtenido no esta presente");
         assertNotEquals(usuarioEsperado, usuarioObtenido.orElse(null), "estos dos no son iguales");
         verify(usuarioRepositorio, times(2)).findById(id);
@@ -93,10 +93,10 @@ public class TestUserDomain {
             return usuarioEntity;
         });
         // Consultamos el usuario antes de la actualización
-        var usuarioObtenido = usuarioService.consultarUsuarioPorId(id);
+        var usuarioObtenido = userService.consultarUsuarioPorId(id);
         UsuarioEntity usuarioObtenido2 = usuarioObtenido.get();
         // Actualizamos el usuario
-        usuarioService.actualizarUsuario(usuarioDomain);
+        userService.actualizarUsuario(usuarioDomain);
         // Simulamos la recuperación del usuario actualizado
         UsuarioEntity usuarioActualizado = new UsuarioEntity();
         usuarioActualizado.setId(id);
@@ -104,7 +104,7 @@ public class TestUserDomain {
         usuarioActualizado.setContrasena("contraseñaCodificada"); // Contraseña codificada
         when(usuarioRepositorio.findById(id)).thenReturn(Optional.of(usuarioActualizado));
         // Consultamos el usuario después de la actualización
-        var usuarioEditado = usuarioService.consultarUsuarioPorId(id);
+        var usuarioEditado = userService.consultarUsuarioPorId(id);
         UsuarioEntity usuarioEditado2 = usuarioEditado.get();
         // Verificación
         assertNotEquals(usuarioObtenido2.getNombre(), usuarioEditado2.getNombre(), "Los nombres de los usuarios no deberían ser iguales");
@@ -142,7 +142,7 @@ public class TestUserDomain {
         });
 
         // Ejecutar el método que estamos probando
-        UserDomain usuarioDomainActualizado = usuarioService.actualizarParcial(id, cambios);
+        UserDomain usuarioDomainActualizado = userService.actualizarParcial(id, cambios);
 
         // Verificar que el nombre y el correo hayan cambiado
         assertEquals("dualipa", usuarioDomainActualizado.getNombre(), "El nombre debería haber sido actualizado a 'dualipa'");
@@ -165,7 +165,7 @@ public class TestUserDomain {
         when(usuarioRepositorio.findAll(any(Example.class))).thenReturn(listaUsuarios);
 
         // Llamar al método a probar
-        List<UsuarioEntity> resultado = usuarioService.consultarUsuario(usuarioDomain);
+        List<UsuarioEntity> resultado = userService.consultarUsuario(usuarioDomain);
 
         // Verificaciones
         assertNotNull(resultado);
@@ -192,7 +192,7 @@ public class TestUserDomain {
         when(passwordEncoder.encode("password123")).thenReturn("passwordEncriptado");
 
         // Ejecutar el método registrarUsuario
-        usuarioService.registrarUsuario(usuarioDomain);
+        userService.registrarUsuario(usuarioDomain);
 
         // Verificar que las validaciones fueron llamadas
         verify(validacionesUsuario, times(1)).validaciones(usuarioDomain);

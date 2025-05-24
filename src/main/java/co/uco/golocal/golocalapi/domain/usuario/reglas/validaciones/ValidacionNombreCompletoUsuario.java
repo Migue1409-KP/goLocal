@@ -16,18 +16,18 @@ public class ValidacionNombreCompletoUsuario implements Validacion<UserDomain> {
         validarFormato(usuarioDomain);
     }
     private void validarObligatoriedad(UserDomain usuarioDomain) {
-        validarObligatoriedNombre(usuarioDomain.getNombre());
-        validarObligatoriedApellido(usuarioDomain.getApellido());
+        validarObligatoriedNombre(usuarioDomain.getName());
+        validarObligatoriedApellido(usuarioDomain.getLastName());
     }
 
     private void validarLogitud(UserDomain usuarioDomain) {
-       validarLogitudNombre(usuarioDomain.getNombre());
-       validarLongitudApellido(usuarioDomain.getApellido());
+       validarLogitudNombre(usuarioDomain.getName());
+       validarLongitudApellido(usuarioDomain.getLastName());
 
     }
     private void validarFormato(UserDomain usuarioDomain) {
-        validarFormatoNombre(usuarioDomain.getNombre());
-        validarFormatoApellido(usuarioDomain.getApellido());
+        validarFormatoNombre(usuarioDomain.getName());
+        validarFormatoApellido(usuarioDomain.getLastName());
 
     }
 
