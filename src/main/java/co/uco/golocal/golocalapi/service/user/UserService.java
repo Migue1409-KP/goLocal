@@ -1,13 +1,13 @@
-package co.uco.golocal.golocalapi.service.usuario;
+package co.uco.golocal.golocalapi.service.user;
 
-import co.uco.golocal.golocalapi.data.entity.usuario.UsuarioEntity;
-import co.uco.golocal.golocalapi.domain.usuario.UserDomain;
-import co.uco.golocal.golocalapi.domain.usuario.reglas.validaciones.impl.ValidacionesUsuarioImpl;
+import co.uco.golocal.golocalapi.data.entity.user.UserEntity;
+import co.uco.golocal.golocalapi.domain.user.UserDomain;
+import co.uco.golocal.golocalapi.domain.user.reglas.validaciones.impl.ValidacionesUsuarioImpl;
 
 import java.util.UUID;
 
 import co.uco.golocal.golocalapi.data.mapper.concrete.IUsuarioMapperEntity;
-import co.uco.golocal.golocalapi.domain.usuario.reglasdomain.impl.ReglasDominioUsuairo;
+import co.uco.golocal.golocalapi.domain.user.reglasdomain.impl.ReglasDominioUsuairo;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import co.uco.golocal.golocalapi.repository.usuario.IUserRepository;
@@ -36,7 +36,7 @@ public class UserService {
 
 		reglasDominioUsuairo.validacionReglasDominio(usuarioDomain);
 
-		UsuarioEntity usuarioEntidad = usuarioMapeadorEntidad.toEntity(usuarioDomain);
+		UserEntity usuarioEntidad = usuarioMapeadorEntidad.toEntity(usuarioDomain);
 
 		usuarioEntidad.setId(UUID.randomUUID());
 

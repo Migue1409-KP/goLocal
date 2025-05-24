@@ -40,11 +40,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers("/api/v1/rest/autenticacion/login").permitAll()
-                                .requestMatchers("/api/v1/rest/usuarios").permitAll()
-//                                .requestMatchers("/api/v1/rest/usuarios/listarusuarios").permitAll()
-                                .requestMatchers("/api/v1/rest/usuarios/dummy").permitAll()
-                                .requestMatchers("/api/v1/cotizacion/dummy-solicitud", "/api/v1/cotizacion/dummy").permitAll()
-                                .requestMatchers("/api/v1/rest/usuarios/listausarios").permitAll()
+                                .requestMatchers("/api/v1/rest/users").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFiltroAutenticacion(), UsernamePasswordAuthenticationFilter.class);

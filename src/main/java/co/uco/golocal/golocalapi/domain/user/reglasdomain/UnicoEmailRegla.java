@@ -1,6 +1,6 @@
-package co.uco.golocal.golocalapi.domain.usuario.reglasdomain;
+package co.uco.golocal.golocalapi.domain.user.reglasdomain;
 
-import co.uco.golocal.golocalapi.domain.usuario.exception.DuplicateEmailException;
+import co.uco.golocal.golocalapi.domain.user.exception.DuplicateEmailException;
 import co.uco.golocal.golocalapi.repository.usuario.IUserRepository;
 import org.springframework.stereotype.Service;
 

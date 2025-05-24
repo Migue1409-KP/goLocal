@@ -1,14 +1,14 @@
-package co.uco.golocal.golocalapi.controllers.usuario;
+package co.uco.golocal.golocalapi.controllers.user;
 
-import co.uco.golocal.golocalapi.domain.usuario.UserDomain;
-import co.uco.golocal.golocalapi.service.usuario.UserService;
+import co.uco.golocal.golocalapi.domain.user.UserDomain;
+import co.uco.golocal.golocalapi.service.user.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/v1/rest/usuarios")
+@RequestMapping("/api/v1/rest/users")
 public class UsuarioController {
 
 	private final UserService userService;

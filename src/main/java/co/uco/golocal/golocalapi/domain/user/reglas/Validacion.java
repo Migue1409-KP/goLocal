@@ -1,4 +1,4 @@
-package co.uco.golocal.golocalapi.domain.usuario.reglas;
+package co.uco.golocal.golocalapi.domain.user.reglas;
 
 public interface Validacion<D> {
 

@@ -1,15 +1,14 @@
-package co.uco.golocal.golocalapi.domain.usuario;
+package co.uco.golocal.golocalapi.domain.user;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -27,7 +26,7 @@ public class UserDomain {
     private String role;
     private String email;
     private String password;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
 

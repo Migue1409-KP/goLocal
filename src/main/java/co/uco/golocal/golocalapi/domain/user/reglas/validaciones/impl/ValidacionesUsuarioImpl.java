@@ -1,7 +1,7 @@
-package co.uco.golocal.golocalapi.domain.usuario.reglas.validaciones.impl;
+package co.uco.golocal.golocalapi.domain.user.reglas.validaciones.impl;
 
-import co.uco.golocal.golocalapi.domain.usuario.UserDomain;
-import co.uco.golocal.golocalapi.domain.usuario.reglas.validaciones.*;
+import co.uco.golocal.golocalapi.domain.user.UserDomain;
+import co.uco.golocal.golocalapi.domain.user.reglas.validaciones.*;
 import org.springframework.stereotype.Service;
 
 @Service

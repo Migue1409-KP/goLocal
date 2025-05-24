@@ -1,9 +1,9 @@
-package co.uco.golocal.golocalapi.domain.usuario.reglasdomain.impl;
+package co.uco.golocal.golocalapi.domain.user.reglasdomain.impl;
 
-import co.uco.golocal.golocalapi.domain.usuario.UserDomain;
-import co.uco.golocal.golocalapi.domain.usuario.reglasdomain.UnicoEmailRegla;
-import co.uco.golocal.golocalapi.domain.usuario.reglasdomain.UnicoNumeroContactoRegla;
-import co.uco.golocal.golocalapi.domain.usuario.reglasdomain.UnicoTipoNumeroIdRegla;
+import co.uco.golocal.golocalapi.domain.user.UserDomain;
+import co.uco.golocal.golocalapi.domain.user.reglasdomain.UnicoEmailRegla;
+import co.uco.golocal.golocalapi.domain.user.reglasdomain.UnicoNumeroContactoRegla;
+import co.uco.golocal.golocalapi.domain.user.reglasdomain.UnicoTipoNumeroIdRegla;
 import org.springframework.stereotype.Service;
 
 @Service

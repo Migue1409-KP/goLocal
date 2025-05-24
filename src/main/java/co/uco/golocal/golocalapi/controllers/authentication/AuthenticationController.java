@@ -1,7 +1,7 @@
-package co.uco.golocal.golocalapi.controllers.autenticacion;
+package co.uco.golocal.golocalapi.controllers.authentication;
 
 import co.uco.golocal.golocalapi.configuracion.seguridad.service.CustomUserDetails;
-import co.uco.golocal.golocalapi.domain.usuario.UserDomain;
+import co.uco.golocal.golocalapi.domain.user.UserDomain;
 import co.uco.golocal.golocalapi.utils.JwtUtilidad;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
