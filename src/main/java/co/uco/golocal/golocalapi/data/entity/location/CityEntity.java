@@ -1,5 +1,6 @@
 package co.uco.golocal.golocalapi.data.entity.location;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -11,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.UUID;
 
+@Entity
 @Table(name="Cities")
 @EntityListeners(AuditingEntityListener.class)
 @Getter

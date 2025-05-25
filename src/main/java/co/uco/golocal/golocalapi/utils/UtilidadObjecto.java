@@ -2,6 +2,8 @@ package co.uco.golocal.golocalapi.utils;
 
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class UtilidadObjecto {
 	
@@ -24,4 +26,7 @@ public class UtilidadObjecto {
 	}
 
 
+	public static boolean isEmptyOrNull(UUID location) {
+		return location == null || location.equals(new UUID(0L, 0L));
+	}
 }

@@ -1,4 +1,41 @@
 package co.uco.golocal.golocalapi.data.entity.business;
 
+import co.uco.golocal.golocalapi.data.entity.location.CityEntity;
+import co.uco.golocal.golocalapi.data.entity.user.UserEntity;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Table(name = "Business")
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class BusinessEntity {
+
+    @Id
+    private UUID id;
+    @Column(nullable = false)
+    private String name;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String description;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location", referencedColumnName = "id")
+    private CityEntity location;
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
+    private UserEntity user;
+    @CreatedDate
+    private LocalDateTime createdAt;
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
 }
