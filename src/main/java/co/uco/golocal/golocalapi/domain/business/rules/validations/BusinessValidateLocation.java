@@ -16,7 +16,7 @@ public class BusinessValidateLocation implements Validation<BusinessDomain> {
     }
 
     private void validateMandatory(BusinessDomain businessDomain) {
-        validateMandatoryLocation(businessDomain.getLocation());
+        validateMandatoryLocation(businessDomain.getLocation().getId());
     }
 
     private void validateMandatoryLocation(UUID location) {

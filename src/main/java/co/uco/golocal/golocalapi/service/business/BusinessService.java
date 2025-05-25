@@ -19,10 +19,10 @@ public class BusinessService {
 
 
 
-    public BusinessService(IBusinessRepository businessRepository, IBusinessMapperEntity bussinesMapperEntity,
+    public BusinessService(IBusinessRepository businessRepository, IBusinessMapperEntity businessMapperEntity,
                            BusinessValidationImpl businessValidation, BusinesRulesDomain businessRulesDomain) {
         this.businessRepository = businessRepository;
-        this.businessMapperEntity = bussinesMapperEntity;
+        this.businessMapperEntity = businessMapperEntity;
         this.businessValidation = businessValidation;
         this.businessRulesDomain = businessRulesDomain;
     }

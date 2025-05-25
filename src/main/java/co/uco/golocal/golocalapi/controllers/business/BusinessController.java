@@ -23,7 +23,7 @@ public class BusinessController {
     }
 
     @PostMapping
-    public ResponseEntity<String> registerBusiness(@RequestBody BusinessDomain businessDomain) {
+    public ResponseEntity<String> createBusiness(@RequestBody BusinessDomain businessDomain) {
         try {
             businessService.registerBusiness(businessDomain);
         return ResponseEntity.status(HttpStatus.CREATED).body("Business registered successfully");

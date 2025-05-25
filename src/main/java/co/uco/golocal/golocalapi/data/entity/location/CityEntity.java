@@ -1,9 +1,6 @@
 package co.uco.golocal.golocalapi.data.entity.location;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,5 +20,7 @@ public class CityEntity {
     @Id
     private UUID id;
     private String name;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "state", referencedColumnName = "id", nullable = false)
     private StateEntity state;
 }

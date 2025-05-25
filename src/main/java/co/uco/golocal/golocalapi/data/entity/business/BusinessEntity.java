@@ -31,7 +31,7 @@ public class BusinessEntity {
     @JoinColumn(name = "location", referencedColumnName = "id")
     private CityEntity location;
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "Users", referencedColumnName = "id", nullable = false)
     private UserEntity user;
     @CreatedDate
     private LocalDateTime createdAt;
