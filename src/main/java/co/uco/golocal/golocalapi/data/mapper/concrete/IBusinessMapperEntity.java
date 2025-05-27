@@ -5,47 +5,19 @@ import co.uco.golocal.golocalapi.data.entity.location.CityEntity;
 import co.uco.golocal.golocalapi.data.entity.user.UserEntity;
 import co.uco.golocal.golocalapi.domain.business.BusinessDomain;
 import co.uco.golocal.golocalapi.domain.location.CityDomain;
+import co.uco.golocal.golocalapi.domain.location.StateDomain;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {ICityMapperEntity.class})
 public interface IBusinessMapperEntity {
 
-    default BusinessEntity toEntity(BusinessDomain domain) {
-        if (domain == null) return null;
+    @Mapping(source = "userId", target = "user.id")
+    @Mapping(source = "location", target = "location")
+    BusinessEntity toEntity(BusinessDomain domain);
 
-        CityEntity city = new CityEntity();
-        city.setId(domain.getLocation().getId());
-
-        UserEntity user = new UserEntity();
-        user.setId(domain.getUserId());
-
-        return BusinessEntity.builder()
-                .id(domain.getId())
-                .name(domain.getName())
-                .description(domain.getDescription())
-                .location(city)
-                .user(user)
-                .createdAt(domain.getCreatedAt())
-                .updatedAt(domain.getUpdatedAt())
-                .build();
-    }
-
-    default BusinessDomain toDomain(BusinessEntity entity) {
-        if (entity == null) return null;
-
-        CityDomain city = new CityDomain();
-        city.setId(entity.getLocation().getId());
-        city.setName(entity.getLocation().getName()); // opcional
-
-        return BusinessDomain.builder()
-                .id(entity.getId())
-                .name(entity.getName())
-                .description(entity.getDescription())
-                .location(city)
-                .userId(entity.getUser().getId())
-                .createdAt(entity.getCreatedAt())
-                .updatedAt(entity.getUpdatedAt())
-                .build();
-    }
+    @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "location", target = "location")
+    BusinessDomain toDomain(BusinessEntity entity);
 }
