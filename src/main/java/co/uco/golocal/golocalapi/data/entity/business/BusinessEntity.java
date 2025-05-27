@@ -2,6 +2,7 @@ package co.uco.golocal.golocalapi.data.entity.business;
 
 import co.uco.golocal.golocalapi.data.entity.location.CityEntity;
 import co.uco.golocal.golocalapi.data.entity.user.UserEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -19,9 +20,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class BusinessEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @Column(nullable = false)
     private String name;

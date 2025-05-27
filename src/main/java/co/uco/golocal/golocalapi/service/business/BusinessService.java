@@ -6,9 +6,16 @@ import co.uco.golocal.golocalapi.domain.business.BusinessDomain;
 import co.uco.golocal.golocalapi.domain.business.businessrulesdomain.impl.BusinesRulesDomain;
 import co.uco.golocal.golocalapi.domain.business.rules.validations.impl.BusinessValidationImpl;
 import co.uco.golocal.golocalapi.repository.business.IBusinessRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
+
 
 @Service
 public class BusinessService {
@@ -26,12 +33,47 @@ public class BusinessService {
         this.businessValidation = businessValidation;
         this.businessRulesDomain = businessRulesDomain;
     }
-    public void registerBusiness (BusinessDomain businessDomain){
+    public void createBusiness(BusinessDomain businessDomain){
         businessValidation.validations(businessDomain);
         businessRulesDomain.BusinessvalidationDomainRules(businessDomain);
         BusinessEntity businessEntity = businessMapperEntity.toEntity(businessDomain);
-        businessEntity.setId(UUID.randomUUID());
         businessRepository.save(businessEntity);
     }
 
+    public Optional<BusinessEntity> getBusinessById(UUID id) {
+            return businessRepository.findById(id);
+    }
+    public IBusinessMapperEntity getBusinessMapper() {
+        return businessMapperEntity;
+    }
+
+
+    public Optional<BusinessEntity> getBusinessByName(String name) {
+        if (businessRepository.existsByName(name)) {
+            return businessRepository.findByName(name);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    public BusinessDomain updatePartial(UUID id, Map<String, Object> updates) {
+        Optional<BusinessEntity> optionalBusinessEntity= businessRepository.findById(id);
+        BusinessEntity businessEntity = optionalBusinessEntity.get();
+        var businessMapping = businessMapperEntity.toDomain(businessEntity);
+        updates.forEach((key,value)->{
+            Field updatedField = ReflectionUtils.findField(BusinessDomain.class, key);
+            if (updatedField != null) {
+                updatedField.setAccessible(true);
+                ReflectionUtils.setField(updatedField, businessMapping, value);
+            }
+        });
+        BusinessEntity updatedBusiness= businessMapperEntity.toEntity(businessMapping);
+        businessRepository.save(updatedBusiness);
+        return businessMapping;
+    }
+
+    public Page<BusinessDomain> getAllBusinesses(Pageable pageable) {
+        Page<BusinessEntity> entitiesBusiness = businessRepository.findAll(pageable);
+        return entitiesBusiness.map(businessMapperEntity::toDomain);
+    }
 }

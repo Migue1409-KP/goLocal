@@ -1,6 +1,8 @@
 package co.uco.golocal.golocalapi.repository.business;
 
 import co.uco.golocal.golocalapi.data.entity.business.BusinessEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +14,7 @@ public interface IBusinessRepository extends JpaRepository<BusinessEntity, UUID>
     boolean existsByName(String name);
     boolean existsById(UUID id);
     Optional<BusinessEntity> findByName(String name);
+    Page<BusinessEntity> findAll(Pageable pageable);
 
 
 }
