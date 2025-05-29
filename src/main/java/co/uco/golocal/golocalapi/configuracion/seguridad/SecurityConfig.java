@@ -42,6 +42,8 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/rest/autenticacion/login").permitAll()
                                 .requestMatchers("/api/v1/rest/users").permitAll()
                                 .requestMatchers("/api/v1/rest/business/**").permitAll()
+                                .requestMatchers("/api/v1/rest/experiences/**").permitAll()
+                                .requestMatchers("/api/v1/rest/category/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFiltroAutenticacion(), UsernamePasswordAuthenticationFilter.class);
