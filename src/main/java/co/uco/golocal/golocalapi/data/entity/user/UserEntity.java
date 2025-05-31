@@ -1,10 +1,6 @@
 package co.uco.golocal.golocalapi.data.entity.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,14 +12,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Table(name="Users")
+@Table(name="users")
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserEntity {
 
 	@Id
@@ -34,6 +29,7 @@ public class UserEntity {
     private String taxId;
     private String role;
     private String email;
+    @Column(updatable = false)
     private String password;
     @CreatedDate
     private LocalDateTime createdAt;
