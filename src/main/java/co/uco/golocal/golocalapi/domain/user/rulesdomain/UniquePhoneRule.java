@@ -1,4 +1,4 @@
-package co.uco.golocal.golocalapi.domain.user.reglasdomain;
+package co.uco.golocal.golocalapi.domain.user.rulesdomain;
 import co.uco.golocal.golocalapi.domain.user.exception.DuplicatePhoneException;
 import co.uco.golocal.golocalapi.repository.usuario.IUserRepository;
 import org.springframework.stereotype.Service;

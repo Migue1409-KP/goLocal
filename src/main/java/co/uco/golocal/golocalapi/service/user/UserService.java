@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.UUID;
 
 import co.uco.golocal.golocalapi.data.mapper.concrete.IUsuarioMapperEntity;
-import co.uco.golocal.golocalapi.domain.user.reglasdomain.impl.CreateUserUseCase;
-import co.uco.golocal.golocalapi.domain.user.reglasdomain.impl.DeleteUserUseCase;
-import co.uco.golocal.golocalapi.domain.user.reglasdomain.impl.UpdateUserUseCase;
+import co.uco.golocal.golocalapi.domain.user.rulesdomain.impl.CreateUserUseCase;
+import co.uco.golocal.golocalapi.domain.user.rulesdomain.impl.DeleteUserUseCase;
+import co.uco.golocal.golocalapi.domain.user.rulesdomain.impl.UpdateUserUseCase;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import co.uco.golocal.golocalapi.repository.usuario.IUserRepository;
