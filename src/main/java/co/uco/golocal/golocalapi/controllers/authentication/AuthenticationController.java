@@ -1,8 +1,10 @@
 package co.uco.golocal.golocalapi.controllers.authentication;
 
 import co.uco.golocal.golocalapi.configuracion.seguridad.service.CustomUserDetails;
+import co.uco.golocal.golocalapi.controllers.user.support.Response;
 import co.uco.golocal.golocalapi.domain.user.UserDomain;
 import co.uco.golocal.golocalapi.utils.JwtUtilidad;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/v1/rest/autenticacion")
+@RequestMapping("/api/v1/rest/authentication")
 public class AuthenticationController {
 
     private final JwtUtilidad jwtUtilidad;
@@ -25,16 +29,19 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> createAuthenticationToken(@RequestBody UserDomain usuarioDomain) {
+    public ResponseEntity<Response<String>> createAuthenticationToken(@RequestBody UserDomain user) {
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(usuarioDomain.getEmail(), usuarioDomain.getPassword()));
+                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
 
         String jwt = jwtUtilidad.generarToken(userDetails,userDetails.getId(),userDetails.getRole());
-
-        return ResponseEntity.ok(jwt);
+        Response<String> response = new Response<>();
+        response.setStatus(HttpStatus.OK);
+        response.setData(List.of(jwt));
+        response.setMessage("Authentication successful");
+        return ResponseEntity.ok(response);
     }
 }
