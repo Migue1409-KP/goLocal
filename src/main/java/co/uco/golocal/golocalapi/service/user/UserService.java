@@ -1,49 +1,66 @@
 package co.uco.golocal.golocalapi.service.user;
 
-import co.uco.golocal.golocalapi.data.entity.user.UserEntity;
 import co.uco.golocal.golocalapi.domain.user.UserDomain;
-import co.uco.golocal.golocalapi.domain.user.reglas.validaciones.impl.ValidacionesUsuarioImpl;
 
+import java.util.List;
 import java.util.UUID;
 
 import co.uco.golocal.golocalapi.data.mapper.concrete.IUsuarioMapperEntity;
-import co.uco.golocal.golocalapi.domain.user.reglasdomain.impl.ReglasDominioUsuairo;
+import co.uco.golocal.golocalapi.domain.user.reglasdomain.impl.CreateUserUseCase;
+import co.uco.golocal.golocalapi.domain.user.reglasdomain.impl.DeleteUserUseCase;
+import co.uco.golocal.golocalapi.domain.user.reglasdomain.impl.UpdateUserUseCase;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import co.uco.golocal.golocalapi.repository.usuario.IUserRepository;
 
 @Service
 public class UserService {
-	private final IUserRepository usuarioRepositorio;
-	private final IUsuarioMapperEntity usuarioMapeadorEntidad;
-	private final ValidacionesUsuarioImpl validacionesUsuario;
-	private final ReglasDominioUsuairo reglasDominioUsuairo;
+	private final IUserRepository userRepository;
+	private final IUsuarioMapperEntity userMapper;
+	private final CreateUserUseCase createUserUseCase;
+	private final UpdateUserUseCase updateUserUseCase;
+	private final DeleteUserUseCase deleteUserUseCase;
 	private final PasswordEncoder passwordEncoder;
 
-	public UserService(IUserRepository usuarioRepositorio, IUsuarioMapperEntity usuarioMapeadorEntidad,
-					   ValidacionesUsuarioImpl validacionesUsuario, ReglasDominioUsuairo reglasDominioUsuairo,
-					   PasswordEncoder passwordEncoder) {
-		this.usuarioRepositorio = usuarioRepositorio;
-		this.usuarioMapeadorEntidad = usuarioMapeadorEntidad;
-		this.validacionesUsuario = validacionesUsuario;
-		this.reglasDominioUsuairo = reglasDominioUsuairo;
+	public UserService(IUserRepository userRepository, IUsuarioMapperEntity userMapper,
+					   CreateUserUseCase createUserUseCase, UpdateUserUseCase updateUserUseCase,
+					   DeleteUserUseCase deleteUserUseCase, PasswordEncoder passwordEncoder) {
+		this.userRepository = userRepository;
+		this.userMapper = userMapper;
+		this.createUserUseCase = createUserUseCase;
+		this.updateUserUseCase = updateUserUseCase;
+		this.deleteUserUseCase = deleteUserUseCase;
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	public void registrarUsuario(UserDomain usuarioDomain) {
+	public UserDomain createUser(UserDomain user) {
 
-		validacionesUsuario.validaciones(usuarioDomain);
+		createUserUseCase.execute(user);
 
-		reglasDominioUsuairo.validacionReglasDominio(usuarioDomain);
+		user.setId(UUID.randomUUID());
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-		UserEntity usuarioEntidad = usuarioMapeadorEntidad.toEntity(usuarioDomain);
+		return userMapper.toDomain(userRepository.save(userMapper.toEntity(user)));
+	}
 
-		usuarioEntidad.setId(UUID.randomUUID());
+	public List<UserDomain> getAllUsers() {
+		return  userRepository.findAll()
+				.stream()
+				.map(userMapper::toDomain)
+				.toList();
+	}
 
-		var contraseniaEncriptada = passwordEncoder.encode(usuarioEntidad.getPassword());
+	public UserDomain getUserById(UUID id) {
+		return userMapper.toDomain(userRepository.findById(id)
+				.orElseThrow(() -> null));
+	}
 
-		usuarioEntidad.setPassword(contraseniaEncriptada);
+	public UserDomain updateUser(UserDomain user) {
+		updateUserUseCase.execute(user);
+		return userMapper.toDomain(userRepository.save(userMapper.toEntity(user)));
+	}
 
-		usuarioRepositorio.save(usuarioEntidad);
+	public void deleteUser(UUID id){
+		deleteUserUseCase.execute(id);
 	}
 }
