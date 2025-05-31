@@ -39,7 +39,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers("/api/v1/rest/autenticacion/login").permitAll()
+                                .requestMatchers("/api/v1/rest/authentication/**").permitAll()
                                 .requestMatchers("/api/v1/rest/users").permitAll()
                                 .requestMatchers("/api/v1/rest/business/**").permitAll()
                                 .requestMatchers("/api/v1/rest/experiences/**").permitAll()
