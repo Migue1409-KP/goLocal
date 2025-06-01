@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
-public interface IUsuarioMapperEntity {
+public interface IUserMapperEntity {
 
-	IUsuarioMapperEntity INSTANCE= Mappers.getMapper(IUsuarioMapperEntity.class);
+	IUserMapperEntity INSTANCE= Mappers.getMapper(IUserMapperEntity.class);
 
 	UserEntity toEntity(UserDomain usuarioDomain);
 	UserDomain toDomain(UserEntity entidad);
