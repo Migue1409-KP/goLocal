@@ -167,4 +167,26 @@ public class BusinessController {
         }
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<ResponseBusiness<BusinessDomain>> filterBusinesses(
+            @RequestParam(required = false) UUID cityId,
+            @RequestParam(required = false) UUID stateId,
+            @RequestParam(required = false) List<UUID> categoryIds,
+            Pageable pageable) {
+
+        var response = new ResponseBusiness<BusinessDomain>();
+        try {
+            Page<BusinessDomain> filtered = businessService.filterBusinesses(cityId, stateId, categoryIds, pageable);
+            response.setStatus(HttpStatus.OK);
+            response.setData(filtered.getContent());
+            response.setMessage("Negocios filtrados correctamente");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setMessage("Error al filtrar negocios: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+
 }

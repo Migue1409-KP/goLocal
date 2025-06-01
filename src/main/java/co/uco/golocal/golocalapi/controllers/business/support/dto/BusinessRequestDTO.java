@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -30,5 +31,9 @@ public class BusinessRequestDTO {
 
     @NotNull(message = "El ID del usuario es obligatorio.")
     private UUID userId;
+
+    @NotNull(message = "Debe proporcionar al menos una categoría.")
+    @Size(min = 1, message = "Debe proporcionar al menos una categoría.")
+    private List<UUID> categories;
 
 }
