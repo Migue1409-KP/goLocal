@@ -1,4 +1,4 @@
-package co.uco.golocal.golocalapi.domain.user.rulesdomain;
+package co.uco.golocal.golocalapi.domain.user.userrulesdomain;
 
 import co.uco.golocal.golocalapi.data.entity.user.UserEntity;
 import co.uco.golocal.golocalapi.domain.user.exception.DoesntExistIdException;

@@ -1,8 +1,8 @@
-package co.uco.golocal.golocalapi.domain.user.rulesdomain.impl;
+package co.uco.golocal.golocalapi.domain.user.userrulesdomain.impl;
 
 import co.uco.golocal.golocalapi.data.entity.user.UserEntity;
 import co.uco.golocal.golocalapi.domain.user.UserDomain;
-import co.uco.golocal.golocalapi.domain.user.rulesdomain.*;
+import co.uco.golocal.golocalapi.domain.user.userrulesdomain.*;
 import org.springframework.stereotype.Service;
 
 @Service
