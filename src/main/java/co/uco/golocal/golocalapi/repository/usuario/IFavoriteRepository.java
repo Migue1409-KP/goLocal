@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface IFavorityRepository extends JpaRepository<FavoriteEntity, UUID>{
+public interface IFavoriteRepository extends JpaRepository<FavoriteEntity, UUID>{
     boolean existsById(UUID id);
     boolean existsByExperienceId(UUID experienceId);
     boolean existsByUserId(UUID userId);

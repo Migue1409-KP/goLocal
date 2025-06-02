@@ -1,20 +1,20 @@
 package co.uco.golocal.golocalapi.domain.user.favoriterulesdomain;
 
-import co.uco.golocal.golocalapi.repository.usuario.IFavorityRepository;
+import co.uco.golocal.golocalapi.repository.usuario.IFavoriteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
 public class ExistExperienceIdRule {
-    private final IFavorityRepository iFavorityRepository;
+    private final IFavoriteRepository iFavoriteRepository;
 
-    public ExistExperienceIdRule(IFavorityRepository iFavorityRepository) {
-        this.iFavorityRepository = iFavorityRepository;
+    public ExistExperienceIdRule(IFavoriteRepository iFavoriteRepository) {
+        this.iFavoriteRepository = iFavoriteRepository;
     }
 
     public void execute(UUID experienceId) {
-        if (!iFavorityRepository.existsByExperienceId(experienceId)) {
+        if (!iFavoriteRepository.existsByExperienceId(experienceId)) {
             throw new IllegalArgumentException("Experience id: " + experienceId + " does not exist");
         }
     }
