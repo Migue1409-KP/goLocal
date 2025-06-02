@@ -9,5 +9,7 @@ import java.util.UUID;
 @Repository
 public interface IFavorityRepository extends JpaRepository<FavorityEntity, UUID>{
     boolean existsById(UUID id);
+    boolean existsByExperienceId(UUID experienceId);
+    boolean existsByUserId(UUID userId);
     FavorityEntity findByUserId(UUID userId);
 }
