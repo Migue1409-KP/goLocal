@@ -1,6 +1,6 @@
 package co.uco.golocal.golocalapi.controllers.user;
 
-import co.uco.golocal.golocalapi.controllers.user.support.Response;
+import co.uco.golocal.golocalapi.controllers.support.Response;
 import co.uco.golocal.golocalapi.domain.user.UserDomain;
 import co.uco.golocal.golocalapi.service.user.UserService;
 import org.springframework.http.ResponseEntity;

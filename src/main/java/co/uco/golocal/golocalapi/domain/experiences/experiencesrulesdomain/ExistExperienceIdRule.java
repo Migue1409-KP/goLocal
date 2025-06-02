@@ -7,16 +7,16 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class ExisExperienceIdRule {
+public class ExistExperienceIdRule {
     private final IExperienceRepository iExperienceRepository;
 
-    public ExisExperienceIdRule(IExperienceRepository iexperienceRepository) {
+    public ExistExperienceIdRule(IExperienceRepository iexperienceRepository) {
         this.iExperienceRepository = iexperienceRepository;
     }
 
     public void execute(UUID id) {
         if (!iExperienceRepository.existsById(id)) {
-            throw new DoesntBussinesExistIdException("Business ID: " + id+ " does not exist.");
+            throw new DoesntBussinesExistIdException("Experience ID: " + id+ " does not exist.");
         }
     }
 

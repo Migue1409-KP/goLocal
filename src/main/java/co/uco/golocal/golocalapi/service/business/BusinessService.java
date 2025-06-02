@@ -48,6 +48,7 @@ public class BusinessService {
         this.getBusinessByIdUseCase = getBusinessByIdUseCase;
         this.categoryRepository = categoryRepository;
     }
+    
     public void createBusiness(BusinessDomain businessDomain){
         createBusinesUseCase.execute(businessDomain);
         BusinessEntity businessEntity = businessMapperEntity.toEntity(businessDomain);

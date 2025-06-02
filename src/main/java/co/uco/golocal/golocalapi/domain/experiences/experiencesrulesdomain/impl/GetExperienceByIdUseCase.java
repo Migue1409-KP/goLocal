@@ -1,21 +1,21 @@
-package co.uco.golocal.golocalapi.domain.business.businessrulesdomain.impl;
+package co.uco.golocal.golocalapi.domain.experiences.experiencesrulesdomain.impl;
 
-import co.uco.golocal.golocalapi.domain.business.businessrulesdomain.ExisBussinestIdRule;
+import co.uco.golocal.golocalapi.domain.business.businessrulesdomain.ExistBussinestIdRule;
+import co.uco.golocal.golocalapi.domain.experiences.experiencesrulesdomain.ExistExperienceIdRule;
 import org.springframework.stereotype.Service;
-
 
 import java.util.UUID;
 
 @Service
-public class GetBusinessByIdUseCase {
+public class GetExperienceByIdUseCase {
 
-    private final ExisBussinestIdRule exisBussinestIdRule;
+    private final ExistExperienceIdRule existExperienceIdRule;
 
-    public GetBusinessByIdUseCase( ExisBussinestIdRule exisBussinestIdRule) {
-        this.exisBussinestIdRule = exisBussinestIdRule;
+    public GetExperienceByIdUseCase(ExistExperienceIdRule existExperienceIdRule) {
+        this.existExperienceIdRule = existExperienceIdRule;
     }
 
     public void execute(UUID id) {
-        exisBussinestIdRule.execute(id);
+        existExperienceIdRule.execute(id);
     }
 }

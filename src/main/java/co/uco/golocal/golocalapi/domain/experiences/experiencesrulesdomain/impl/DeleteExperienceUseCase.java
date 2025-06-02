@@ -1,19 +1,20 @@
-package co.uco.golocal.golocalapi.domain.business.businessrulesdomain.impl;
+package co.uco.golocal.golocalapi.domain.experiences.experiencesrulesdomain.impl;
 
-import co.uco.golocal.golocalapi.domain.business.businessrulesdomain.ExisBussinestIdRule;
+import co.uco.golocal.golocalapi.domain.business.businessrulesdomain.ExistBussinestIdRule;
+import co.uco.golocal.golocalapi.domain.experiences.experiencesrulesdomain.ExistExperienceIdRule;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
-public class DeleteBusinesUseCase {
-    private final ExisBussinestIdRule exisBussinestIdRule;
+public class DeleteExperienceUseCase {
+    private final ExistExperienceIdRule existExperienceIdRule;
 
-    public DeleteBusinesUseCase(ExisBussinestIdRule exisBussinestIdRule) {
-        this.exisBussinestIdRule = exisBussinestIdRule;
+    public DeleteExperienceUseCase(ExistExperienceIdRule existExperienceIdRule) {
+        this.existExperienceIdRule = existExperienceIdRule;
     }
 
     public void execute(UUID id) {
-        exisBussinestIdRule.execute(id);
+        existExperienceIdRule.execute(id);
     }
 }

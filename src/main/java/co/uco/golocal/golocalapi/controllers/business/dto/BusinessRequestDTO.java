@@ -1,4 +1,4 @@
-package co.uco.golocal.golocalapi.controllers.business.support.dto;
+package co.uco.golocal.golocalapi.controllers.business.dto;
 
 
 import jakarta.validation.constraints.NotBlank;

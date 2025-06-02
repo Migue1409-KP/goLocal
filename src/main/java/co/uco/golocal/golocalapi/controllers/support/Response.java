@@ -1,4 +1,4 @@
-package co.uco.golocal.golocalapi.controllers.user.support;
+package co.uco.golocal.golocalapi.controllers.support;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
