@@ -1,4 +1,4 @@
-package co.uco.golocal.golocalapi.domain.user.favorityrulesdomain;
+package co.uco.golocal.golocalapi.domain.user.favoriterulesdomain;
 
 import co.uco.golocal.golocalapi.repository.usuario.IFavorityRepository;
 import org.springframework.stereotype.Service;

@@ -1,15 +1,15 @@
 package co.uco.golocal.golocalapi.data.mapper.concrete;
 
-import co.uco.golocal.golocalapi.data.entity.user.FavorityEntity;
+import co.uco.golocal.golocalapi.data.entity.user.FavoriteEntity;
 import co.uco.golocal.golocalapi.data.mapper.MapperEntity;
-import co.uco.golocal.golocalapi.domain.user.FavorityDomain;
+import co.uco.golocal.golocalapi.domain.user.FavoriteDomain;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface IFavorityMapperEntity extends MapperEntity<FavorityEntity, FavorityDomain> {
+public interface IFavorityMapperEntity extends MapperEntity<FavoriteEntity, FavoriteDomain> {
 	@Override
-	FavorityEntity toEntity(FavorityDomain domain);
+    FavoriteEntity toEntity(FavoriteDomain domain);
 
 	@Override
-	FavorityDomain toDomain(FavorityEntity entity);
+	FavoriteDomain toDomain(FavoriteEntity entity);
 }

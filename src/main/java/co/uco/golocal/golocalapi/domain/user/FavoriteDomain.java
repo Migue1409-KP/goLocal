@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FavorityDomain {
+public class FavoriteDomain {
     private UUID id;
     private UserDomain user;
     private ExperienceDomain experience;
