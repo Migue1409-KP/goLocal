@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class ExisBussinestIdRule {
+public class ExistBussinestIdRule {
     private final IBusinessRepository iBusinessRepository;
 
-    public ExisBussinestIdRule(IBusinessRepository iBusinessRepository) {
+    public ExistBussinestIdRule(IBusinessRepository iBusinessRepository) {
         this.iBusinessRepository = iBusinessRepository;
     }
     public void execute(UUID id) {

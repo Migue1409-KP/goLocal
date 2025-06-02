@@ -1,23 +1,25 @@
 package co.uco.golocal.golocalapi.service.business;
 
 import co.uco.golocal.golocalapi.data.entity.business.BusinessEntity;
+import co.uco.golocal.golocalapi.data.entity.category.CategoryEntity;
 import co.uco.golocal.golocalapi.data.mapper.concrete.IBusinessMapperEntity;
 import co.uco.golocal.golocalapi.domain.business.BusinessDomain;
 import co.uco.golocal.golocalapi.domain.business.businessrulesdomain.impl.CreateBusinesUseCase;
 import co.uco.golocal.golocalapi.domain.business.businessrulesdomain.impl.DeleteBusinesUseCase;
 import co.uco.golocal.golocalapi.domain.business.businessrulesdomain.impl.GetBusinessByIdUseCase;
 import co.uco.golocal.golocalapi.domain.business.businessrulesdomain.impl.UpdatePartialBusinessUseCase;
+import co.uco.golocal.golocalapi.repository.business.BusinessSpecifications;
 import co.uco.golocal.golocalapi.repository.business.IBusinessRepository;
+import co.uco.golocal.golocalapi.repository.category.ICategoryRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -28,6 +30,7 @@ public class BusinessService {
     private final CreateBusinesUseCase createBusinesUseCase;
     private final UpdatePartialBusinessUseCase updateBusinessUseCase;
     private final GetBusinessByIdUseCase getBusinessByIdUseCase;
+    private final ICategoryRepository categoryRepository;
     private static final Set<String> CAMPOS_VALIDOS = Set.of(
             "name", "description", "location"
     );
@@ -36,17 +39,24 @@ public class BusinessService {
 
     public BusinessService(IBusinessRepository businessRepository, IBusinessMapperEntity businessMapperEntity,
                            DeleteBusinesUseCase deleteBussinesCase, CreateBusinesUseCase createBusinesUseCase,
-                           UpdatePartialBusinessUseCase updateBusinessUseCase, GetBusinessByIdUseCase getBusinessByIdUseCase) {
+                           UpdatePartialBusinessUseCase updateBusinessUseCase, GetBusinessByIdUseCase getBusinessByIdUseCase, ICategoryRepository categoryRepository) {
         this.businessRepository = businessRepository;
         this.businessMapperEntity = businessMapperEntity;
         this.deleteBussinesCase = deleteBussinesCase;
         this.createBusinesUseCase = createBusinesUseCase;
         this.updateBusinessUseCase = updateBusinessUseCase;
         this.getBusinessByIdUseCase = getBusinessByIdUseCase;
+        this.categoryRepository = categoryRepository;
     }
+    
     public void createBusiness(BusinessDomain businessDomain){
         createBusinesUseCase.execute(businessDomain);
         BusinessEntity businessEntity = businessMapperEntity.toEntity(businessDomain);
+        if (businessDomain.getCategories() != null && !businessDomain.getCategories().isEmpty()) {
+            List<CategoryEntity> attachedCategories = categoryRepository
+                    .findAllById(businessDomain.getCategories());
+            businessEntity.setCategories(attachedCategories);
+        }
         businessRepository.save(businessEntity);
     }
 
@@ -104,4 +114,16 @@ public class BusinessService {
         }
         businessRepository.delete(business);
     }
+
+    public Page<BusinessDomain> filterBusinesses(UUID cityId, UUID stateId, List<UUID> categoryIds, Pageable pageable) {
+        Specification<BusinessEntity> spec = Specification
+                .where(BusinessSpecifications.filterByCity(cityId))
+                .and(BusinessSpecifications.filterByState(stateId))
+                .and(BusinessSpecifications.filterByCategories(categoryIds));
+
+        return businessRepository.findAll(spec, pageable)
+                .map(businessMapperEntity::toDomain);
+    }
+
+
 }

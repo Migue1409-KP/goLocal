@@ -1,4 +1,4 @@
-package co.uco.golocal.golocalapi.controllers.business.support;
+package co.uco.golocal.golocalapi.controllers.support;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,12 +11,12 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public final  class ResponseBusiness<T> {
+public final class Response<T> {
     private HttpStatus status;
     private List<T> data;
     private String message;
 
-    public ResponseBusiness() {
+    public Response() {
         super();
         setStatus(HttpStatus.BAD_REQUEST);
         setData(new ArrayList<>());

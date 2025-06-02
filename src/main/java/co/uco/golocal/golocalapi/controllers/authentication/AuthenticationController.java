@@ -1,7 +1,7 @@
 package co.uco.golocal.golocalapi.controllers.authentication;
 
 import co.uco.golocal.golocalapi.configuracion.seguridad.service.CustomUserDetails;
-import co.uco.golocal.golocalapi.controllers.user.support.Response;
+import co.uco.golocal.golocalapi.controllers.support.Response;
 import co.uco.golocal.golocalapi.domain.user.UserDomain;
 import co.uco.golocal.golocalapi.utils.JwtUtilidad;
 import org.springframework.http.HttpStatus;

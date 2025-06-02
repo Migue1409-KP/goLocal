@@ -1,5 +1,6 @@
 package co.uco.golocal.golocalapi.data.entity.business;
 
+import co.uco.golocal.golocalapi.data.entity.category.CategoryEntity;
 import co.uco.golocal.golocalapi.data.entity.experience.ExperienceEntity;
 import co.uco.golocal.golocalapi.data.entity.location.CityEntity;
 import co.uco.golocal.golocalapi.data.entity.user.UserEntity;
@@ -40,6 +41,13 @@ public class BusinessEntity {
     private UserEntity user;
     @OneToMany(mappedBy = "business", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExperienceEntity> experiences;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "business_categories",
+            joinColumns = @JoinColumn(name = "business_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<CategoryEntity> categories;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate

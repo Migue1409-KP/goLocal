@@ -1,4 +1,4 @@
-package co.uco.golocal.golocalapi.controllers.business.support.dto;
+package co.uco.golocal.golocalapi.controllers.business.dto;
 
 
 import jakarta.validation.constraints.NotBlank;
@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -14,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BusinessRequestDTO {
+public class BusinessDTO {
 
     @NotBlank(message = "El nombre del negocio es obligatorio.")
     @Size(min = 1, max = 30, message = "El nombre del negocio debe tener entre 1 y 30 caracteres.")
@@ -30,5 +31,9 @@ public class BusinessRequestDTO {
 
     @NotNull(message = "El ID del usuario es obligatorio.")
     private UUID userId;
+
+    @NotNull(message = "Debe proporcionar al menos una categoría.")
+    @Size(min = 1, message = "Debe proporcionar al menos una categoría.")
+    private List<UUID> categories;
 
 }

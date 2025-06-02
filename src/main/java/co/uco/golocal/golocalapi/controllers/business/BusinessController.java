@@ -1,8 +1,8 @@
 package co.uco.golocal.golocalapi.controllers.business;
 
-import co.uco.golocal.golocalapi.controllers.business.support.ResponseBusiness;
-import co.uco.golocal.golocalapi.controllers.business.support.dto.BusinessRequestDTO;
+import co.uco.golocal.golocalapi.controllers.business.dto.BusinessDTO;
 import co.uco.golocal.golocalapi.controllers.mapper.IBusinessMapperDTO;
+import co.uco.golocal.golocalapi.controllers.support.Response;
 import co.uco.golocal.golocalapi.data.entity.business.BusinessEntity;
 import co.uco.golocal.golocalapi.domain.business.BusinessDomain;
 import co.uco.golocal.golocalapi.domain.business.exception.BusinessNameAlreadyExistsException;
@@ -12,7 +12,6 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -43,8 +42,8 @@ public class BusinessController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseBusiness<String>> createBusiness(@Valid @RequestBody BusinessRequestDTO businessRequestDTO) {
-        ResponseBusiness<String> response = new ResponseBusiness<>();
+    public ResponseEntity<Response<String>> createBusiness(@Valid @RequestBody BusinessDTO businessRequestDTO) {
+        Response<String> response = new Response<>();
 
         try {
             BusinessDomain domain = businessMapper.toDomain(businessRequestDTO);
@@ -59,15 +58,15 @@ public class BusinessController {
             response.setMessage(e.getMessage());
             return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         } catch (Exception e) {
-            response.setMessage("Error inesperado al registrar el negocio");
+            response.setMessage("Error inesperado al registrar el negocio: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseBusiness<BusinessDomain>> getBusinessById(@PathVariable UUID id) {
-        ResponseBusiness<BusinessDomain> response = new ResponseBusiness<>();
+    public ResponseEntity<Response<BusinessDomain>> getBusinessById(@PathVariable UUID id) {
+        Response<BusinessDomain> response = new Response<>();
         try {
             Optional<BusinessEntity> optional = businessService.getBusinessById(id);
             BusinessDomain domain = businessService.getBusinessMapper().toDomain(optional.get());
@@ -106,11 +105,11 @@ public class BusinessController {
 
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ResponseBusiness<BusinessDomain>> updateBusiness(
+    public ResponseEntity<Response<BusinessDomain>> updateBusiness(
             @PathVariable UUID id,
             @RequestBody Map<String, Object> updates) {
 
-        ResponseBusiness<BusinessDomain> response = new ResponseBusiness<>();
+        Response<BusinessDomain> response = new Response<>();
 
         try {
             BusinessDomain updated = businessService.updatePartial(id, updates);
@@ -134,14 +133,14 @@ public class BusinessController {
 
 
     @GetMapping
-    public ResponseEntity<ResponseBusiness<BusinessDomain>> getAllBusinesses(
+    public ResponseEntity<Response<BusinessDomain>> getAllBusinesses(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
         Page<BusinessDomain> businessPage = businessService.getAllBusinesses(pageable);
 
-        ResponseBusiness<BusinessDomain> response = new ResponseBusiness<>();
+        Response<BusinessDomain> response = new Response<>();
         response.setStatus(HttpStatus.OK);
         response.setData(businessPage.getContent());
         response.setMessage("Negocios listados exitosamente");
@@ -151,8 +150,8 @@ public class BusinessController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseBusiness<Void>> deleteBusiness(@PathVariable UUID id) {
-        ResponseBusiness<Void> response = new ResponseBusiness<>();
+    public ResponseEntity<Response<Void>> deleteBusiness(@PathVariable UUID id) {
+        Response<Void> response = new Response<>();
 
         try {
             businessService.deleteBusiness(id);
@@ -166,5 +165,27 @@ public class BusinessController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<Response<BusinessDomain>> filterBusinesses(
+            @RequestParam(required = false) UUID cityId,
+            @RequestParam(required = false) UUID stateId,
+            @RequestParam(required = false) List<UUID> categoryIds,
+            Pageable pageable) {
+
+        var response = new Response<BusinessDomain>();
+        try {
+            Page<BusinessDomain> filtered = businessService.filterBusinesses(cityId, stateId, categoryIds, pageable);
+            response.setStatus(HttpStatus.OK);
+            response.setData(filtered.getContent());
+            response.setMessage("Negocios filtrados correctamente");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setMessage("Error al filtrar negocios: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
 
 }

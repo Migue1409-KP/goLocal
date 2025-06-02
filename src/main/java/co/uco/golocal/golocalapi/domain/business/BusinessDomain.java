@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -19,6 +20,7 @@ public class BusinessDomain {
     private String description;
     private CityDomain location;
     private UUID userId;
+    private List<UUID> categories;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
