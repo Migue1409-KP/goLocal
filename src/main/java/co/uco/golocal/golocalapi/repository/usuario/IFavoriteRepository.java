@@ -13,4 +13,5 @@ public interface IFavoriteRepository extends JpaRepository<FavoriteEntity, UUID>
     boolean existsByUserId(UUID userId);
     FavoriteEntity findByUserId(UUID userId);
     List<FavoriteEntity> findAllByUserId(UUID userId);
+    boolean existsByExperienceIdAndUserId(UUID experienceId, UUID userId);
 }

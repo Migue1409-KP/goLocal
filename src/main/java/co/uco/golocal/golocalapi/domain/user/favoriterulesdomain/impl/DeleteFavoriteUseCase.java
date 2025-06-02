@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class DeleteFavoritieUseCase {
+public class DeleteFavoriteUseCase {
     private final ExistIdRule existIdRule;
 
-    public DeleteFavoritieUseCase(ExistIdRule existIdRule) {
+    public DeleteFavoriteUseCase(ExistIdRule existIdRule) {
         this.existIdRule = existIdRule;
 
     }
