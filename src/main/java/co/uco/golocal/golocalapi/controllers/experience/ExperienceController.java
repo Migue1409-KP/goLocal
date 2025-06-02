@@ -7,6 +7,7 @@ import co.uco.golocal.golocalapi.data.entity.experience.ExperienceEntity;
 import co.uco.golocal.golocalapi.domain.experiences.ExperienceDomain;
 import co.uco.golocal.golocalapi.service.experience.ExperienceService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -94,5 +95,20 @@ public class ExperienceController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response<String>> deleteExperience(@PathVariable UUID id) {
+        Response<String> response = new Response<>();
+        try {
+            experienceService.deleteExperience(id);
+            response.setStatus(HttpStatus.OK);
+            response.setMessage("Experiencia eliminada correctamente");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            response.setMessage("Error eliminando  experiencia: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
 }
 

@@ -3,6 +3,7 @@ package co.uco.golocal.golocalapi.service.experience;
 import co.uco.golocal.golocalapi.data.entity.business.BusinessEntity;
 import co.uco.golocal.golocalapi.data.entity.category.CategoryEntity;
 import co.uco.golocal.golocalapi.data.entity.experience.ExperienceEntity;
+import co.uco.golocal.golocalapi.data.entity.user.FavoriteEntity;
 import co.uco.golocal.golocalapi.data.mapper.concrete.IExperienceMapperEntity;
 import co.uco.golocal.golocalapi.domain.experiences.ExperienceDomain;
 import co.uco.golocal.golocalapi.domain.experiences.experiencesrulesdomain.impl.DeleteExperienceUseCase;
@@ -11,6 +12,7 @@ import co.uco.golocal.golocalapi.domain.experiences.experiencesrulesdomain.impl.
 import co.uco.golocal.golocalapi.repository.business.IBusinessRepository;
 import co.uco.golocal.golocalapi.repository.category.ICategoryRepository;
 import co.uco.golocal.golocalapi.repository.experience.IExperienceRepository;
+import co.uco.golocal.golocalapi.repository.usuario.IFavoriteRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,11 +31,12 @@ public class ExperienceService {
     private final UpdatePartialExperienceUseCase updatePartialExperienceUseCase;
     private final IBusinessRepository businessRepository;
     private final ICategoryRepository categoryRepository;
+    private final IFavoriteRepository iFavoriteRepository;
 
 
     public ExperienceService(IExperienceRepository experienceRepository, IExperienceMapperEntity experienceMapperEntity,
                              DeleteExperienceUseCase deleteExperienceUseCase, GetExperienceByIdUseCase getExperienceByIdUseCase,
-                             UpdatePartialExperienceUseCase updatePartialExperienceUseCase, IBusinessRepository businessRepository, ICategoryRepository categoryRepository) {
+                             UpdatePartialExperienceUseCase updatePartialExperienceUseCase, IBusinessRepository businessRepository, ICategoryRepository categoryRepository, IFavoriteRepository iFavoriteRepository) {
         this.experienceRepository = experienceRepository;
         this.experienceMapperEntity = experienceMapperEntity;
         this.deleteExperienceUseCase = deleteExperienceUseCase;
@@ -41,6 +44,7 @@ public class ExperienceService {
         this.updatePartialExperienceUseCase = updatePartialExperienceUseCase;
         this.businessRepository = businessRepository;
         this.categoryRepository = categoryRepository;
+        this.iFavoriteRepository = iFavoriteRepository;
     }
 
     public void createExperience(ExperienceDomain experienceDomain) {
@@ -74,6 +78,16 @@ public class ExperienceService {
     public Page<ExperienceDomain> getAllExperiences(Pageable pageable) {
         Page<ExperienceEntity> experiencePage = experienceRepository.findAll(pageable);
         return experiencePage.map(experienceMapperEntity::toDomain);
+    }
+
+    public void deleteExperience(UUID id) {
+        deleteExperienceUseCase.execute(id);
+        List<FavoriteEntity> favoritos = iFavoriteRepository.findAll()
+                .stream()
+                .filter(fav -> fav.getExperience() != null && id.equals(fav.getExperience().getId()))
+                .toList();
+        iFavoriteRepository.deleteAll(favoritos);
+        experienceRepository.deleteById(id);
     }
 
 }
