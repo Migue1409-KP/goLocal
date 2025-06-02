@@ -23,6 +23,7 @@ public class UserDomain {
     private String taxId;
     private String role;
     private String email;
+//    @JsonIgnore
     private String password;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

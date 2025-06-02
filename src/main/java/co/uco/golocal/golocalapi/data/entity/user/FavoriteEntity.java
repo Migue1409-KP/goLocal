@@ -20,7 +20,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FavorityEntity {
+public class FavoriteEntity {
 
 	@Id
 	private UUID id;
