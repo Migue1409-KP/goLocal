@@ -6,7 +6,7 @@ import co.uco.golocal.golocalapi.domain.user.FavoriteDomain;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface IFavorityMapperEntity extends MapperEntity<FavoriteEntity, FavoriteDomain> {
+public interface IFavoriteMapperEntity extends MapperEntity<FavoriteEntity, FavoriteDomain> {
 	@Override
     FavoriteEntity toEntity(FavoriteDomain domain);
 

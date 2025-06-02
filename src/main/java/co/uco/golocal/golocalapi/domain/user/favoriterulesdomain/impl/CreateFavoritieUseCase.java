@@ -1,5 +1,6 @@
 package co.uco.golocal.golocalapi.domain.user.favoriterulesdomain.impl;
 
+import co.uco.golocal.golocalapi.domain.user.FavoriteDomain;
 import co.uco.golocal.golocalapi.domain.user.favoriterulesdomain.ExistExperienceIdRule;
 import co.uco.golocal.golocalapi.domain.user.favoriterulesdomain.ExistUserIdRule;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,8 @@ public class CreateFavoritieUseCase {
         this.existUserIdRule = existUserIdRule;
     }
 
-    public void execute(UUID userId, UUID experienceId) {
-        existUserIdRule.execute(userId);
-        existExperienceIdRule.execute(experienceId);
+    public void execute(FavoriteDomain favorite) {
+        existUserIdRule.execute(favorite.getUser().getId());
+        existExperienceIdRule.execute(favorite.getExperience().getId());
     }
 }
