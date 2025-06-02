@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BusinessRequestDTO {
+public class BusinessDTO {
 
     @NotBlank(message = "El nombre del negocio es obligatorio.")
     @Size(min = 1, max = 30, message = "El nombre del negocio debe tener entre 1 y 30 caracteres.")

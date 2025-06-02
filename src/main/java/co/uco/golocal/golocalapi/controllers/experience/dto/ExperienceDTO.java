@@ -10,7 +10,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExperienceRequestDTO {
+public class ExperienceDTO {
 
     @NotBlank(message="El nombre de una experiencia no puede ser vacio")
     @Size(max=100, message="El nombre de una experiencia no puede tener mas de 100 caracteres")

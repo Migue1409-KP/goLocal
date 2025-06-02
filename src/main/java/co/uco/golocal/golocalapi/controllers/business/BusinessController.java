@@ -1,6 +1,6 @@
 package co.uco.golocal.golocalapi.controllers.business;
 
-import co.uco.golocal.golocalapi.controllers.business.dto.BusinessRequestDTO;
+import co.uco.golocal.golocalapi.controllers.business.dto.BusinessDTO;
 import co.uco.golocal.golocalapi.controllers.mapper.IBusinessMapperDTO;
 import co.uco.golocal.golocalapi.controllers.support.Response;
 import co.uco.golocal.golocalapi.data.entity.business.BusinessEntity;
@@ -42,7 +42,7 @@ public class BusinessController {
     }
 
     @PostMapping
-    public ResponseEntity<Response<String>> createBusiness(@Valid @RequestBody BusinessRequestDTO businessRequestDTO) {
+    public ResponseEntity<Response<String>> createBusiness(@Valid @RequestBody BusinessDTO businessRequestDTO) {
         Response<String> response = new Response<>();
 
         try {
