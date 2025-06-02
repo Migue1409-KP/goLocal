@@ -1,9 +1,6 @@
 package co.uco.golocal.golocalapi.data.entity.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Table(name="Users")
+@Table(name="users")
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
@@ -30,10 +27,13 @@ public class UserEntity {
     private String lastName;
     private String phone;
     private String taxId;
+    @Column(updatable = false)
     private String role;
     private String email;
+    @Column(updatable = false)
     private String password;
     @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;

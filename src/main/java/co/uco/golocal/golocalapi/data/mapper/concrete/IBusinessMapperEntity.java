@@ -1,21 +1,34 @@
 package co.uco.golocal.golocalapi.data.mapper.concrete;
 
 import co.uco.golocal.golocalapi.data.entity.business.BusinessEntity;
+import co.uco.golocal.golocalapi.data.entity.category.CategoryEntity;
 import co.uco.golocal.golocalapi.domain.business.BusinessDomain;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
-import org.springframework.data.domain.Page;
+import org.mapstruct.Named;
 
-@Mapper(componentModel = "spring")
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+
+@Mapper(componentModel = "spring", uses = {ICityMapperEntity.class})
 public interface IBusinessMapperEntity {
-    IBusinessMapperEntity INSTANCE = Mappers.getMapper(IBusinessMapperEntity.class);
 
-    @Mapping(target = "location.id", source = "locationId")
-    @Mapping(target = "user.id", source = "userId")
-    BusinessEntity toEntity(BusinessDomain businessDomain);
-    @Mapping(source = "location.id", target = "locationId")
+    @Mapping(source = "userId", target = "user.id")
+    @Mapping(source = "location", target = "location")
+    @Mapping(target = "categories", ignore = true)
+    BusinessEntity toEntity(BusinessDomain domain);
+
     @Mapping(source = "user.id", target = "userId")
-    BusinessDomain toDomain(BusinessEntity businessEntity);
+    @Mapping(source = "location", target = "location")
+    @Mapping(source = "categories", target = "categories", qualifiedByName = "mapCategoriesToIds")
+    BusinessDomain toDomain(BusinessEntity entity);
+
+    @Named("mapCategoriesToIds")
+    default List<UUID> mapCategoriesToIds(List<CategoryEntity> categories) {
+        if (categories == null) return null;
+        return categories.stream().map(CategoryEntity::getId).collect(Collectors.toList());
+    }
 
 }
