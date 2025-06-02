@@ -16,10 +16,10 @@ import co.uco.golocal.golocalapi.repository.usuario.IFavoriteRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.lang.reflect.Field;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +32,9 @@ public class ExperienceService {
     private final IBusinessRepository businessRepository;
     private final ICategoryRepository categoryRepository;
     private final IFavoriteRepository iFavoriteRepository;
+    private static final Set<String> ALLOWED_FIELDS = Set.of(
+            "title", "description", "price"
+    );
 
 
     public ExperienceService(IExperienceRepository experienceRepository, IExperienceMapperEntity experienceMapperEntity,
@@ -90,4 +93,25 @@ public class ExperienceService {
         experienceRepository.deleteById(id);
     }
 
+    public ExperienceDomain updatePartialExperience(UUID id, Map<String, Object> updates) {
+        updatePartialExperienceUseCase.execute(id);
+        Optional<ExperienceEntity> optionalExperience = experienceRepository.findById(id);
+        ExperienceEntity experienceEntity=optionalExperience.get();
+        var experienceMapping= experienceMapperEntity.toDomain(experienceEntity);
+        updates.forEach((key, value) -> {
+            if(ALLOWED_FIELDS.contains(key)) {
+                Field updateField = ReflectionUtils.findField(ExperienceDomain.class, key);
+                if (updateField != null) {
+                    updateField.setAccessible(true);
+                    ReflectionUtils.setField(updateField, experienceMapping, value);
+                } else {
+                    throw new IllegalArgumentException("Campo no permitido: " + key);
+                }
+            }
+        });
+        ExperienceEntity experience = experienceMapperEntity.toEntity(experienceMapping);
+        experience.setFavorites(experienceEntity.getFavorites());
+        experienceRepository.save(experience);
+        return experienceMapping;
+    }
 }

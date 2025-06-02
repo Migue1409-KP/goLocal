@@ -1,6 +1,6 @@
 package co.uco.golocal.golocalapi.controllers.mapper;
 
-import co.uco.golocal.golocalapi.controllers.business.dto.BusinessRequestDTO;
+import co.uco.golocal.golocalapi.controllers.business.dto.BusinessDTO;
 import co.uco.golocal.golocalapi.domain.business.BusinessDomain;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -9,5 +9,5 @@ import org.mapstruct.Mapping;
 public interface IBusinessMapperDTO {
     @Mapping(source = "locationId", target = "location.id")
     @Mapping(source = "userId", target = "userId")
-    BusinessDomain toDomain(BusinessRequestDTO dto);
+    BusinessDomain toDomain(BusinessDTO dto);
 }

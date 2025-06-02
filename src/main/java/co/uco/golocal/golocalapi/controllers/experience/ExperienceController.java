@@ -1,13 +1,12 @@
 package co.uco.golocal.golocalapi.controllers.experience;
 
-import co.uco.golocal.golocalapi.controllers.experience.dto.ExperienceRequestDTO;
+import co.uco.golocal.golocalapi.controllers.experience.dto.ExperienceDTO;
 import co.uco.golocal.golocalapi.controllers.mapper.IExperienceMapperDTO;
 import co.uco.golocal.golocalapi.controllers.support.Response;
 import co.uco.golocal.golocalapi.data.entity.experience.ExperienceEntity;
 import co.uco.golocal.golocalapi.domain.experiences.ExperienceDomain;
 import co.uco.golocal.golocalapi.service.experience.ExperienceService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,9 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/rest/experiences")
@@ -35,7 +32,7 @@ public class ExperienceController {
     }
 
     @PostMapping
-    public ResponseEntity<Response<String>> createExperience(@Valid @RequestBody ExperienceRequestDTO experienceRequestDTO) {
+    public ResponseEntity<Response<String>> createExperience(@Valid @RequestBody ExperienceDTO experienceRequestDTO) {
         Response<String> response = new Response<>();
         try {
             ExperienceDomain experienceDomain = experienceMapper.toDomain(experienceRequestDTO);
@@ -75,9 +72,19 @@ public class ExperienceController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<ExperienceDomain>> getAllExperiencesInList() {
-        List<ExperienceDomain> experiences = experienceService.getAllExperiencesInList();
-        return ResponseEntity.ok(experiences);
+    public ResponseEntity<Response<List<ExperienceDomain>>> getAllExperiencesInList() {
+        Response<List<ExperienceDomain>> response = new Response<>();
+        try {
+            List<ExperienceDomain> experiences = experienceService.getAllExperiencesInList();
+            response.setStatus(HttpStatus.OK);
+            response.setMessage("Experiencias listadas exitosamente");
+            response.setData(Collections.singletonList(experiences));
+            return ResponseEntity.ok(response);
+        }catch (Exception e) {
+            response.setMessage("Error obteniendo experiencias: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
     }
 
     @GetMapping
@@ -106,6 +113,23 @@ public class ExperienceController {
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             response.setMessage("Error eliminando  experiencia: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Response<String>> updateExperience(
+            @PathVariable UUID id,
+            @RequestBody Map<String, Object> updates
+            ) {
+        Response<String> response=new Response<>();
+        try {
+            experienceService.updatePartialExperience(id, updates);
+            response.setStatus(HttpStatus.OK);
+            response.setMessage("Experiencia actualizada correctamente");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            response.setMessage("Error actualizando experiencia: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }

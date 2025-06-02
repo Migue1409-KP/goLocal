@@ -1,6 +1,6 @@
 package co.uco.golocal.golocalapi.controllers.mapper;
 
-import co.uco.golocal.golocalapi.controllers.experience.dto.ExperienceRequestDTO;
+import co.uco.golocal.golocalapi.controllers.experience.dto.ExperienceDTO;
 import co.uco.golocal.golocalapi.domain.experiences.ExperienceDomain;
 import org.mapstruct.Mapper;
 
@@ -9,6 +9,6 @@ import org.mapstruct.Mapper;
 public interface IExperienceMapperDTO {
 
 
-    ExperienceDomain toDomain(ExperienceRequestDTO dto);
+    ExperienceDomain toDomain(ExperienceDTO dto);
 
 }
