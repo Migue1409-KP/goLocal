@@ -1,24 +1,23 @@
 package co.uco.golocal.golocalapi.domain.user.favoriterulesdomain.impl;
 
 import co.uco.golocal.golocalapi.domain.user.FavoriteDomain;
-import co.uco.golocal.golocalapi.domain.user.favoriterulesdomain.ExistExperienceIdRule;
-import co.uco.golocal.golocalapi.domain.user.favoriterulesdomain.ExistUserIdRule;
+import co.uco.golocal.golocalapi.domain.user.favoriterulesdomain.ExistExperienceRule;
+import co.uco.golocal.golocalapi.domain.user.userrulesdomain.ExistsIdRule;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class CreateFavoritieUseCase {
-    private final ExistExperienceIdRule existExperienceIdRule;
-    private final ExistUserIdRule existUserIdRule;
+    private final ExistExperienceRule existExperienceRule;
+    private final ExistsIdRule existUser;
 
-    public CreateFavoritieUseCase(ExistExperienceIdRule existExperienceIdRule, ExistUserIdRule existUserIdRule) {
-        this.existExperienceIdRule = existExperienceIdRule;
-        this.existUserIdRule = existUserIdRule;
+    public CreateFavoritieUseCase(ExistExperienceRule existExperienceRule, ExistsIdRule existUser) {
+        this.existExperienceRule = existExperienceRule;
+        this.existUser = existUser;
     }
 
     public void execute(FavoriteDomain favorite) {
-        existUserIdRule.execute(favorite.getUser().getId());
-        existExperienceIdRule.execute(favorite.getExperience().getId());
+        existUser.execute(favorite.getUser().getId());
+        existExperienceRule.execute(favorite.getExperience().getId());
     }
 }
