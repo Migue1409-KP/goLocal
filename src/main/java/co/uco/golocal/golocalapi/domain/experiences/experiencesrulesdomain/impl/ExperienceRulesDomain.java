@@ -13,6 +13,6 @@ public class ExperienceRulesDomain {
     }
 
     public void BusinessvalidationDomainRules(BusinessDomain businessDomain) {
-        unicNameBusiness.validationRuleName(businessDomain.getName());
+        unicNameBusiness.execute(businessDomain.getName());
     }
 }

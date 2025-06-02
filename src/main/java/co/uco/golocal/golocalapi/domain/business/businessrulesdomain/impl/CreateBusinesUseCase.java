@@ -5,14 +5,16 @@ import co.uco.golocal.golocalapi.domain.business.businessrulesdomain.UnicNameBus
 import org.springframework.stereotype.Service;
 
 @Service
-public class BusinesRulesDomain {
-    private UnicNameBusiness unicNameBusiness;
+public class CreateBusinesUseCase {
 
-    public BusinesRulesDomain(UnicNameBusiness unicNameBusiness) {
+    private final UnicNameBusiness unicNameBusiness;
+
+
+    public CreateBusinesUseCase(UnicNameBusiness unicNameBusiness) {
         this.unicNameBusiness = unicNameBusiness;
     }
 
-    public void BusinessvalidationDomainRules(BusinessDomain businessDomain) {
-        unicNameBusiness.validationRuleName(businessDomain.getName());
+    public void execute(BusinessDomain businessDomain) {
+        unicNameBusiness.execute(businessDomain.getName());
     }
 }

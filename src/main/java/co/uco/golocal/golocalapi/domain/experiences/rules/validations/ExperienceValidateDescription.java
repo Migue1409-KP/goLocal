@@ -1,13 +1,12 @@
 package co.uco.golocal.golocalapi.domain.experiences.rules.validations;
 
-import co.uco.golocal.golocalapi.domain.business.BusinessDomain;
-import co.uco.golocal.golocalapi.domain.business.rules.Validation;
 import co.uco.golocal.golocalapi.domain.experiences.ExperienceDomain;
+import co.uco.golocal.golocalapi.domain.experiences.rules.Validation;
 import co.uco.golocal.golocalapi.utils.UtilidadTexto;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ExperienceValidateDescription implements Validation<ExperienceDomain>{
+public class ExperienceValidateDescription implements Validation<ExperienceDomain> {
 
     @Override
     public void execute(ExperienceDomain experienceDomain) {
