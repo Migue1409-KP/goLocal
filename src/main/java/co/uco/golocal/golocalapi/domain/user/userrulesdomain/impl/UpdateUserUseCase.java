@@ -20,19 +20,36 @@ public class UpdateUserUseCase {
         this.existsIdRuleWithReturnRule = existsIdRuleWithReturnRule;
     }
 
-    public void execute(UserDomain user){
+    public UserEntity execute(UserDomain user){
         UserEntity actualUser = existsIdRuleWithReturnRule.execute(user.getId());
 
-        if(!actualUser.getEmail().equals(user.getEmail())) {
+        if(user.getEmail() != null && !user.getEmail().isEmpty() && !actualUser.getEmail().equals(user.getEmail())) {
             uniqueEmailRule.execute(user.getEmail());
+            actualUser.setEmail(user.getEmail());
         }
 
-        if(!actualUser.getTaxId().equals(user.getTaxId())) {
+        if(user.getTaxId() != null && !user.getTaxId().isEmpty() && !actualUser.getTaxId().equals(user.getTaxId())) {
             uniqueTaxIdRule.execute(user.getTaxId());
+            actualUser.setTaxId(user.getTaxId());
         }
 
-        if(!actualUser.getPhone().equals(user.getPhone())) {
+        if(user.getPhone() != null && !user.getPhone().isEmpty() && !actualUser.getPhone().equals(user.getPhone())) {
             uniquePhoneRule.execute(user.getPhone());
+            actualUser.setPhone(user.getPhone());
         }
+
+        if(user.getName() != null && !user.getName().isEmpty() && !actualUser.getName().equals(user.getName())) {
+            actualUser.setName(user.getName());
+        }
+
+        if(user.getLastName() != null && !user.getLastName().isEmpty() && !actualUser.getLastName().equals(user.getLastName())) {
+            actualUser.setLastName(user.getLastName());
+        }
+
+        if(user.getRole() != null && !user.getRole().isEmpty() && !actualUser.getRole().equals(user.getRole())) {
+            actualUser.setRole(user.getRole());
+        }
+
+        return actualUser;
     }
 }

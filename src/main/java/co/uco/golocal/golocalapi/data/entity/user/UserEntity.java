@@ -27,11 +27,13 @@ public class UserEntity {
     private String lastName;
     private String phone;
     private String taxId;
+    @Column(updatable = false)
     private String role;
     private String email;
     @Column(updatable = false)
     private String password;
     @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;

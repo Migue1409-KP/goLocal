@@ -1,5 +1,6 @@
 package co.uco.golocal.golocalapi.service.user;
 
+import co.uco.golocal.golocalapi.data.entity.user.UserEntity;
 import co.uco.golocal.golocalapi.data.mapper.concrete.IUserMapperEntity;
 import co.uco.golocal.golocalapi.domain.user.UserDomain;
 
@@ -56,8 +57,8 @@ public class UserService {
 	}
 
 	public UserDomain updateUser(UserDomain user) {
-		updateUserUseCase.execute(user);
-		return userMapper.toDomain(userRepository.save(userMapper.toEntity(user)));
+		UserEntity userToUpdate = updateUserUseCase.execute(user);
+		return userMapper.toDomain(userRepository.save(userToUpdate));
 	}
 
 	public void deleteUser(UUID id){
