@@ -62,5 +62,6 @@ public class UserService {
 
 	public void deleteUser(UUID id){
 		deleteUserUseCase.execute(id);
+		userRepository.deleteById(id);
 	}
 }
