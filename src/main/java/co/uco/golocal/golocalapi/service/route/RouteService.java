@@ -1,15 +1,90 @@
 package co.uco.golocal.golocalapi.service.route;
 
+import co.uco.golocal.golocalapi.data.entity.route.RouteEntity;
 import co.uco.golocal.golocalapi.data.mapper.concrete.IRouteMapperEntity;
+import co.uco.golocal.golocalapi.domain.route.RouteDomain;
+import co.uco.golocal.golocalapi.domain.route.rules.Validate;
 import co.uco.golocal.golocalapi.repository.route.IRouteRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
 public class RouteService {
 
     private final IRouteRepository routeRepository;
     private final IRouteMapperEntity routeMapperEntity;
+    private final List<Validate<RouteDomain>> validators;
 
-    public RouteService(IRouteRepository routeRepository, IRouteMapperEntity routeMapperEntity) {
+    public RouteService(IRouteRepository routeRepository,
+                        IRouteMapperEntity routeMapperEntity,
+                        List<Validate<RouteDomain>> validators) {
         this.routeRepository = routeRepository;
         this.routeMapperEntity = routeMapperEntity;
+        this.validators = validators;
+    }
+
+    public List<RouteDomain> getAllRoutes() {
+        List<RouteEntity> entities = routeRepository.findAll();
+        return routeMapperEntity.toDomainList(entities);
+    }
+
+    public Page<RouteDomain> getAllRoutes(Pageable pageable) {
+        Page<RouteEntity> entityPage = routeRepository.findAll(pageable);
+        return routeMapperEntity.toDomainPage(entityPage);
+    }
+
+    public Optional<RouteEntity> getRouteById(UUID id) {
+        return routeRepository.findById(id);
+    }
+
+    public List<RouteDomain> getRoutesByCategory(UUID categoryId) {
+        List<RouteEntity> entities = routeRepository.findByCategoryId(categoryId);
+        return routeMapperEntity.toDomainList(entities);
+    }
+
+    public RouteDomain createRoute(RouteDomain routeDomain) {
+        // Validar la ruta
+        validators.forEach(validator -> validator.execute(routeDomain));
+
+        // Convertir a entidad y guardar
+        RouteEntity entity = routeMapperEntity.toEntity(routeDomain);
+        entity = routeRepository.save(entity);
+
+        return routeMapperEntity.toDomain(entity);
+    }
+
+    public RouteDomain updateRoute(UUID id, RouteDomain routeDomain) {
+        // Verificar si existe
+        if (!routeRepository.existsById(id)) {
+            throw new IllegalArgumentException("Ruta no encontrada con ID: " + id);
+        }
+
+        // Validar la ruta
+        validators.forEach(validator -> validator.execute(routeDomain));
+
+        // Actualizar
+        routeDomain.setId(id);
+        RouteEntity entity = routeMapperEntity.toEntity(routeDomain);
+        entity = routeRepository.save(entity);
+
+        return routeMapperEntity.toDomain(entity);
+    }
+
+    public void deleteRoute(UUID id) {
+        // Verificar si existe
+        if (!routeRepository.existsById(id)) {
+            throw new IllegalArgumentException("Ruta no encontrada con ID: " + id);
+        }
+
+        routeRepository.deleteById(id);
+    }
+
+    public IRouteMapperEntity getRouteMapper() {
+        return routeMapperEntity;
     }
 }
