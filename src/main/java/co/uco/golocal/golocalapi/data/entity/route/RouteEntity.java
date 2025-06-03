@@ -1,29 +1,51 @@
 package co.uco.golocal.golocalapi.data.entity.route;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import co.uco.golocal.golocalapi.data.entity.category.CategoryEntity;
+import co.uco.golocal.golocalapi.data.entity.experience.ExperienceEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
-@Table(name="Routes")
 @Entity
-@EntityListeners(AuditingEntityListener.class)
+@Table(name = "routes")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class RouteEntity {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
+    @Column(nullable = false, length = 50)
     private String name;
-    private String category;
-    private String experience;
-    private String createdAt;
-    private String updatedAt;
+
+    @ManyToMany
+    @JoinTable(
+            name = "route_category",
+            joinColumns = @JoinColumn(name = "route_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<CategoryEntity> category;
+
+    @ManyToMany
+    @JoinTable(
+            name = "route_experience",
+            joinColumns = @JoinColumn(name = "route_id"),
+            inverseJoinColumns = @JoinColumn(name = "experience_id")
+    )
+    private List<ExperienceEntity> experience;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }
