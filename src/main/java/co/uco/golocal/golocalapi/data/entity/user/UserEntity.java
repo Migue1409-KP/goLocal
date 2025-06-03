@@ -30,7 +30,6 @@ public class UserEntity {
     @Column(updatable = false)
     private String role;
     private String email;
-    @Column(updatable = false)
     private String password;
     @CreatedDate
     @Column(updatable = false)
