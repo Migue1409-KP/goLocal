@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import co.uco.golocal.golocalapi.domain.category.CategoryDomain;
 import co.uco.golocal.golocalapi.domain.experiences.ExperienceDomain;
+import co.uco.golocal.golocalapi.domain.user.UserDomain;
 import lombok.*;
 
 @AllArgsConstructor
@@ -16,6 +17,7 @@ public class RouteDomain {
 
     private UUID id;
     private String name;
+    private UserDomain user;
     private List<CategoryDomain> category;
     private List<ExperienceDomain> experience;
     private LocalDateTime createdAt;

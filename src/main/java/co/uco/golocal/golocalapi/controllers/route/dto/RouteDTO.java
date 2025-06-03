@@ -22,7 +22,12 @@ public class RouteDTO {
     @Pattern(regexp = "^[\\p{L}\\p{N} .,'\"!?¿¡()@#&$%+-]*$", message = "El nombre de la ruta solo puede contener letras, dígitos, espacios y caracteres especiales.")
     private String name;
 
+    @Setter
+    @Getter
+    private UUID userId;
+
     private List<UUID> categoryId;
 
     private List<UUID> experienceId;
+
 }

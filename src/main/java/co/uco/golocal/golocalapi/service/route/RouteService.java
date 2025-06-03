@@ -1,10 +1,13 @@
 package co.uco.golocal.golocalapi.service.route;
 
 import co.uco.golocal.golocalapi.data.entity.route.RouteEntity;
+import co.uco.golocal.golocalapi.data.entity.user.UserEntity;
 import co.uco.golocal.golocalapi.data.mapper.concrete.IRouteMapperEntity;
 import co.uco.golocal.golocalapi.domain.route.RouteDomain;
 import co.uco.golocal.golocalapi.domain.route.rules.Validate;
 import co.uco.golocal.golocalapi.repository.route.IRouteRepository;
+import co.uco.golocal.golocalapi.repository.usuario.IUserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,13 +22,16 @@ public class RouteService {
     private final IRouteRepository routeRepository;
     private final IRouteMapperEntity routeMapperEntity;
     private final List<Validate<RouteDomain>> validators;
+    private final IUserRepository userRepository;
 
     public RouteService(IRouteRepository routeRepository,
                         IRouteMapperEntity routeMapperEntity,
-                        List<Validate<RouteDomain>> validators) {
+                        List<Validate<RouteDomain>> validators,
+                        IUserRepository userRepository) {
         this.routeRepository = routeRepository;
         this.routeMapperEntity = routeMapperEntity;
         this.validators = validators;
+        this.userRepository = userRepository;
     }
 
     public List<RouteDomain> getAllRoutes() {
@@ -47,15 +53,19 @@ public class RouteService {
         return routeMapperEntity.toDomainList(entities);
     }
 
-    public RouteDomain createRoute(RouteDomain routeDomain) {
-        // Validar la ruta
-        validators.forEach(validator -> validator.execute(routeDomain));
+    // En tu servicio o controlador donde creas la ruta
+    public RouteDomain createRoute(RouteDomain routeDomain, UUID userId) {
+        // Obtener el usuario de la base de datos
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
 
-        // Convertir a entidad y guardar
-        RouteEntity entity = routeMapperEntity.toEntity(routeDomain);
-        entity = routeRepository.save(entity);
+        // Asignar el usuario a la entidad de ruta antes de guardar
+        RouteEntity routeEntity = routeMapperEntity.toEntity(routeDomain);
+        routeEntity.setUser(userEntity);
 
-        return routeMapperEntity.toDomain(entity);
+        // Guardar la ruta
+        RouteEntity savedRoute = routeRepository.save(routeEntity);
+        return routeMapperEntity.toDomain(savedRoute);
     }
 
     public RouteDomain updateRoute(UUID id, RouteDomain routeDomain) {
@@ -86,5 +96,15 @@ public class RouteService {
 
     public IRouteMapperEntity getRouteMapper() {
         return routeMapperEntity;
+    }
+
+    public List<RouteDomain> getRoutesByUserId(UUID userId) {
+        List<RouteEntity> entities = routeRepository.findByUser_Id(userId);
+        return routeMapperEntity.toDomainList(entities);
+    }
+
+    public Page<RouteDomain> getRoutesByUserId(UUID userId, Pageable pageable) {
+        Page<RouteEntity> entityPage = routeRepository.findByUser_Id(userId, pageable);
+        return routeMapperEntity.toDomainPage(entityPage);
     }
 }

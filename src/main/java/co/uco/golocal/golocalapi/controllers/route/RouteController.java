@@ -10,13 +10,13 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,13 +42,21 @@ public class RouteController {
     public ResponseEntity<Response<RouteDomain>> createRoute(@Valid @RequestBody RouteDTO routeDTO) {
         Response<RouteDomain> response = new Response<>();
         try {
+            // Convertir DTO a dominio
             RouteDomain domain = routeMapper.toDomain(routeDTO);
 
+            // Extraer el userId del DTO
+            UUID userId = routeDTO.getUserId();
+
+            // Llamar al servicio con el dominio y el userId
+            RouteDomain createdRoute = routeService.createRoute(domain, userId);
+
+            // Construir respuesta
             response.setStatus(HttpStatus.CREATED);
             response.setMessage("Ruta registrada exitosamente");
-            response.setData(List.of(routeService.createRoute(domain)));
+            response.setData(List.of(createdRoute));
 
-            return ResponseEntity.status(HttpStatus.OK).body(response);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
             response.setMessage("Error al registrar la ruta: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
@@ -123,6 +131,8 @@ public class RouteController {
             response.setMessage("Error al actualizar la ruta: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
+
+
     }
 
     @GetMapping
@@ -160,5 +170,28 @@ public class RouteController {
             response.setMessage("Error al eliminar la ruta: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<RouteDomain>> getRoutesByUserId(@PathVariable UUID userId) {
+        List<RouteDomain> routes = routeService.getRoutesByUserId(userId);
+        return ResponseEntity.ok(routes);
+    }
+
+    @GetMapping("/user/{userId}/paged")
+    public ResponseEntity<Page<RouteDomain>> getPagedRoutesByUserId(
+            @PathVariable UUID userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
+
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("asc") ?
+                Sort.Direction.ASC : Sort.Direction.DESC;
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortBy));
+        Page<RouteDomain> routePage = routeService.getRoutesByUserId(userId, pageable);
+
+        return ResponseEntity.ok(routePage);
     }
 }
