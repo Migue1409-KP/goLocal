@@ -39,16 +39,14 @@ public class RouteController {
     }
 
     @PostMapping
-    public ResponseEntity<Response<String>> createRoute(@Valid @RequestBody RouteDTO routeDTO) {
-        Response<String> response = new Response<>();
+    public ResponseEntity<Response<RouteDomain>> createRoute(@Valid @RequestBody RouteDTO routeDTO) {
+        Response<RouteDomain> response = new Response<>();
         try {
             RouteDomain domain = routeMapper.toDomain(routeDTO);
-            routeService.createRoute(domain);
-
 
             response.setStatus(HttpStatus.CREATED);
             response.setMessage("Ruta registrada exitosamente");
-            response.setData(List.of("OK"));
+            response.setData(List.of(routeService.createRoute(domain)));
 
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
