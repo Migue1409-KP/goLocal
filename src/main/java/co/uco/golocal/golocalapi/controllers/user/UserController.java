@@ -101,6 +101,28 @@ public class UserController {
 		}
 	}
 
+	@PutMapping("/password/{id}")
+	public ResponseEntity<Response<Void>> updatePassword(@PathVariable UUID id, @RequestBody UserDomain user) {
+		try {
+			boolean isUpdated = userService.updatePassword(id, user.getPassword());
+            Response<Void> response = new Response<>();
+            if (isUpdated) {
+                response.setStatus(HttpStatus.OK);
+				response.setMessage("Password updated successfully");
+				return ResponseEntity.ok(response);
+			} else {
+                response.setStatus(HttpStatus.NOT_FOUND);
+				response.setMessage("User not found");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			}
+		} catch (Exception e) {
+			Response<Void> response = new Response<>();
+			response.setStatus(HttpStatus.BAD_REQUEST);
+			response.setMessage(e.getMessage());
+			return ResponseEntity.badRequest().body(response);
+		}
+	}
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Response<Void>> deleteUser(@PathVariable UUID id) {
 		try {
