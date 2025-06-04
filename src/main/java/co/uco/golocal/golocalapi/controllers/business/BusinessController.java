@@ -171,11 +171,12 @@ public class BusinessController {
             @RequestParam(required = false) UUID cityId,
             @RequestParam(required = false) UUID stateId,
             @RequestParam(required = false) List<UUID> categoryIds,
+            @RequestParam(required = false) String name,
             Pageable pageable) {
 
         var response = new Response<BusinessDomain>();
         try {
-            Page<BusinessDomain> filtered = businessService.filterBusinesses(cityId, stateId, categoryIds, pageable);
+            Page<BusinessDomain> filtered = businessService.filterBusinesses(cityId, stateId, categoryIds, name, pageable);
             response.setStatus(HttpStatus.OK);
             response.setData(filtered.getContent());
             response.setMessage("Negocios filtrados correctamente");

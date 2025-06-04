@@ -27,4 +27,11 @@ public class BusinessSpecifications {
             return join.get("id").in(categoryIds);
         };
     }
+
+    public static Specification<BusinessEntity> filterByName(String name) {
+        return (root, query, criteriaBuilder) -> {
+            if (name == null || name.isEmpty()) return null;
+            return criteriaBuilder.like(criteriaBuilder.lower(root.get("name")) , "%" + name.toLowerCase() + "%");
+        };
+    }
 }

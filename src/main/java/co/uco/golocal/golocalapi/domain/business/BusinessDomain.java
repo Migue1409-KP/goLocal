@@ -1,6 +1,7 @@
 package co.uco.golocal.golocalapi.domain.business;
 
 import co.uco.golocal.golocalapi.domain.category.CategoryDomain;
+import co.uco.golocal.golocalapi.domain.experiences.ExperienceDomain;
 import co.uco.golocal.golocalapi.domain.location.CityDomain;
 import lombok.*;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ public class BusinessDomain {
     private CityDomain location;
     private UUID userId;
     private List<CategoryDomain> categories;
+    private List<ExperienceDomain> experiences;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

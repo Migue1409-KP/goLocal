@@ -39,7 +39,7 @@ public class BusinessEntity {
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "Users", referencedColumnName = "id", nullable = false)
     private UserEntity user;
-    @OneToMany(mappedBy = "business", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "business",fetch = FetchType.LAZY , cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExperienceEntity> experiences;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

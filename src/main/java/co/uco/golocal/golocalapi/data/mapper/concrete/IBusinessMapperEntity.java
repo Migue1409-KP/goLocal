@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 
-@Mapper(componentModel = "spring", uses = {ICityMapperEntity.class, ICategoryMapperEntity.class})
+@Mapper(componentModel = "spring", uses = {ICityMapperEntity.class, ICategoryMapperEntity.class, IExperienceMapperEntity.class})
 public interface IBusinessMapperEntity {
 
     @Mapping(source = "userId", target = "user.id")
@@ -22,6 +22,7 @@ public interface IBusinessMapperEntity {
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "location", target = "location")
     @Mapping(source = "categories", target = "categories")
+    @Mapping(source = "experiences", target = "experiences")
     BusinessDomain toDomain(BusinessEntity entity);
 
 //    @Named("mapCategoriesToIds")

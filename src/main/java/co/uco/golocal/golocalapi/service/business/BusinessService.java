@@ -120,11 +120,12 @@ public class BusinessService {
         businessRepository.delete(business);
     }
 
-    public Page<BusinessDomain> filterBusinesses(UUID cityId, UUID stateId, List<UUID> categoryIds, Pageable pageable) {
+    public Page<BusinessDomain> filterBusinesses(UUID cityId, UUID stateId, List<UUID> categoryIds,String name, Pageable pageable) {
         Specification<BusinessEntity> spec = Specification
                 .where(BusinessSpecifications.filterByCity(cityId))
                 .and(BusinessSpecifications.filterByState(stateId))
-                .and(BusinessSpecifications.filterByCategories(categoryIds));
+                .and(BusinessSpecifications.filterByCategories(categoryIds))
+                .and(BusinessSpecifications.filterByName(name));
 
         return businessRepository.findAll(spec, pageable)
                 .map(businessMapperEntity::toDomain);
