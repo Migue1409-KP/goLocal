@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/cities")
+@RequestMapping("/api/v1/rest/cities")
 public class CityController {
 
     private final CityService cityService;
