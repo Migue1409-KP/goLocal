@@ -2,7 +2,6 @@ package co.uco.golocal.golocalapi.controllers.category;
 
 import co.uco.golocal.golocalapi.controllers.category.dto.CategoryDTO;
 import co.uco.golocal.golocalapi.controllers.mapper.ICategoryMapperDTO;
-import co.uco.golocal.golocalapi.controllers.mapper.IExperienceMapperDTO;
 import co.uco.golocal.golocalapi.controllers.support.Response;
 import co.uco.golocal.golocalapi.domain.category.CategoryDomain;
 import co.uco.golocal.golocalapi.service.category.CategoryService;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @Validated
@@ -61,6 +61,20 @@ public class CategoryController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.setMessage("Error obteniendo categorías: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response<String>> deleteCategory(@PathVariable UUID id) {
+        Response<String> response = new Response<>();
+        try {
+            categoryService.deleteCategory(id);
+            response.setStatus(HttpStatus.OK);
+            response.setMessage("Categoria eliminada correctamente");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            response.setMessage("Error eliminando  categoria: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
