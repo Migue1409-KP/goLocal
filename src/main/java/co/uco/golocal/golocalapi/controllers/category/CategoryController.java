@@ -83,7 +83,20 @@ public class CategoryController {
         }
     }
 
-
+    @GetMapping("/{id}")
+    public ResponseEntity<Response<CategoryDomain>> getCategoryById(@PathVariable UUID id) {
+        Response<CategoryDomain> response = new Response<>();
+        try {
+            CategoryDomain categoryDomain = categoryService.getCategoryById(id);
+            response.setStatus(HttpStatus.OK);
+            response.setMessage("Categoría encontrada correctamente");
+            response.setData(List.of(categoryDomain));
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.setMessage("Error obteniendo categoría: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
 
 
 
