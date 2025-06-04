@@ -135,7 +135,7 @@ public class BusinessController {
     @GetMapping
     public ResponseEntity<Response<BusinessDomain>> getAllBusinesses(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "25") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
         Page<BusinessDomain> businessPage = businessService.getAllBusinesses(pageable);
