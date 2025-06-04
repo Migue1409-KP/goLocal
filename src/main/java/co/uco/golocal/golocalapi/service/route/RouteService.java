@@ -69,22 +69,18 @@ public class RouteService {
     }
 
     public RouteDomain updateRoute(UUID id, RouteDomain routeDomain) {
-        // Verificar si existe la ruta
+
         RouteEntity existingRoute = routeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Ruta no encontrada con ID: " + id));
 
-        // Validar la ruta
         validators.forEach(validator -> validator.execute(routeDomain));
 
-        // Obtener el usuario asociado a la ruta existente
         UserEntity userEntity = existingRoute.getUser();
 
-        // Actualizar la entidad
         routeDomain.setId(id);
         RouteEntity entity = routeMapperEntity.toEntity(routeDomain);
-        entity.setUser(userEntity); // Asignar el usuario existente
+        entity.setUser(userEntity);
 
-        // Guardar la entidad actualizada
         entity = routeRepository.save(entity);
 
         return routeMapperEntity.toDomain(entity);
