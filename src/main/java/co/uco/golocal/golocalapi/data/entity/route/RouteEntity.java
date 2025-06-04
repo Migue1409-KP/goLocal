@@ -49,6 +49,7 @@ public class RouteEntity {
     private List<ExperienceEntity> experience;
 
     @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
