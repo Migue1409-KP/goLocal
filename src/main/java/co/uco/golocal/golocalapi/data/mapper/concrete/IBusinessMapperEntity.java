@@ -12,23 +12,22 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 
-@Mapper(componentModel = "spring", uses = {ICityMapperEntity.class})
+@Mapper(componentModel = "spring", uses = {ICityMapperEntity.class, ICategoryMapperEntity.class})
 public interface IBusinessMapperEntity {
 
     @Mapping(source = "userId", target = "user.id")
     @Mapping(source = "location", target = "location")
-    @Mapping(target = "categories", ignore = true)
     BusinessEntity toEntity(BusinessDomain domain);
 
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "location", target = "location")
-    @Mapping(source = "categories", target = "categories", qualifiedByName = "mapCategoriesToIds")
+    @Mapping(source = "categories", target = "categories")
     BusinessDomain toDomain(BusinessEntity entity);
 
-    @Named("mapCategoriesToIds")
-    default List<UUID> mapCategoriesToIds(List<CategoryEntity> categories) {
-        if (categories == null) return null;
-        return categories.stream().map(CategoryEntity::getId).collect(Collectors.toList());
-    }
+//    @Named("mapCategoriesToIds")
+//    default List<UUID> mapCategoriesToIds(List<CategoryEntity> categories) {
+//        if (categories == null) return null;
+//        return categories.stream().map(CategoryEntity::getId).collect(Collectors.toList());
+//    }
 
 }

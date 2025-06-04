@@ -3,7 +3,10 @@ package co.uco.golocal.golocalapi.controllers.category;
 import co.uco.golocal.golocalapi.controllers.category.dto.CategoryDTO;
 import co.uco.golocal.golocalapi.controllers.mapper.ICategoryMapperDTO;
 import co.uco.golocal.golocalapi.controllers.support.Response;
+import co.uco.golocal.golocalapi.data.entity.category.CategoryEntity;
+import co.uco.golocal.golocalapi.data.entity.experience.ExperienceEntity;
 import co.uco.golocal.golocalapi.domain.category.CategoryDomain;
+import co.uco.golocal.golocalapi.domain.experiences.ExperienceDomain;
 import co.uco.golocal.golocalapi.service.category.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -78,6 +82,8 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
+
+
 
 
 

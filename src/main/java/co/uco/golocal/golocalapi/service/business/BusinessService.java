@@ -8,6 +8,7 @@ import co.uco.golocal.golocalapi.domain.business.businessrulesdomain.impl.Create
 import co.uco.golocal.golocalapi.domain.business.businessrulesdomain.impl.DeleteBusinesUseCase;
 import co.uco.golocal.golocalapi.domain.business.businessrulesdomain.impl.GetBusinessByIdUseCase;
 import co.uco.golocal.golocalapi.domain.business.businessrulesdomain.impl.UpdatePartialBusinessUseCase;
+import co.uco.golocal.golocalapi.domain.category.CategoryDomain;
 import co.uco.golocal.golocalapi.repository.business.BusinessSpecifications;
 import co.uco.golocal.golocalapi.repository.business.IBusinessRepository;
 import co.uco.golocal.golocalapi.repository.category.ICategoryRepository;
@@ -19,7 +20,6 @@ import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -48,23 +48,28 @@ public class BusinessService {
         this.getBusinessByIdUseCase = getBusinessByIdUseCase;
         this.categoryRepository = categoryRepository;
     }
-    
+
     public void createBusiness(BusinessDomain businessDomain){
         createBusinesUseCase.execute(businessDomain);
         BusinessEntity businessEntity = businessMapperEntity.toEntity(businessDomain);
+
         if (businessDomain.getCategories() != null && !businessDomain.getCategories().isEmpty()) {
-            List<CategoryEntity> attachedCategories = categoryRepository
-                    .findAllById(businessDomain.getCategories());
+            List<UUID> categoryIds = businessDomain.getCategories()
+                    .stream()
+                    .map(CategoryDomain::getId)
+                    .toList();
+
+            List<CategoryEntity> attachedCategories = categoryRepository.findAllById(categoryIds);
             businessEntity.setCategories(attachedCategories);
         }
         businessRepository.save(businessEntity);
     }
 
+
     public Optional<BusinessEntity> getBusinessById(UUID id) {
         getBusinessByIdUseCase.execute(id);
         return businessRepository.findById(id);
     }
-
 
     public IBusinessMapperEntity getBusinessMapper() {
         return businessMapperEntity;
