@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/states")
+@RequestMapping("/api/v1/states")
 public class StateController {
 
     private final StateService stateService;
