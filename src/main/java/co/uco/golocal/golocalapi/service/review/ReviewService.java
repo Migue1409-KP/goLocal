@@ -29,6 +29,24 @@ public class ReviewService {
 
     public ReviewDomain create(ReviewDomain reviewDomain) {
         validateReview(reviewDomain);
+
+        // Verificar si ya existe una review para el usuario y la experiencia/ruta
+        ReviewEntity existingReview = null;
+        if (reviewDomain.getRouteId() != null) {
+            existingReview = reviewRepository.findByUserIdAndRouteId(reviewDomain.getUserId(), reviewDomain.getRouteId());
+        } else if (reviewDomain.getExperienceId() != null) {
+            existingReview = reviewRepository.findByUserIdAndExperienceId(reviewDomain.getUserId(), reviewDomain.getExperienceId());
+        }
+
+        if (existingReview != null) {
+            // Actualizar la review existente
+            existingReview.setRating(reviewDomain.getRating());
+            existingReview.setDescription(reviewDomain.getDescription());
+            ReviewEntity updatedEntity = reviewRepository.save(existingReview);
+            return reviewMapper.toDomain(updatedEntity);
+        }
+
+        // Crear una nueva review
         ReviewEntity entity = reviewMapper.toEntity(reviewDomain);
         ReviewEntity savedEntity = reviewRepository.save(entity);
         return reviewMapper.toDomain(savedEntity);

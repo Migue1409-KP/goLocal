@@ -35,4 +35,10 @@ public class ReviewDomain {
         // Retorna el ID de la experiencia si existe, null en caso contrario
         return experience != null ? experience.getId() : null;
     }
+
+
+    public UUID getUserId() {
+        // Retorna el ID del usuario si existe, null en caso contrario
+        return user != null ? user.getId() : null;
+    }
 }
