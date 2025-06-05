@@ -17,4 +17,6 @@ public class CityDomain {
     private UUID id;
     private String name;
     private StateDomain state;
+
+
 }

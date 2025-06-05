@@ -20,9 +20,10 @@ import java.util.UUID;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CityEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String name;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "state", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "state", nullable = false)
     private StateEntity state;
 }
