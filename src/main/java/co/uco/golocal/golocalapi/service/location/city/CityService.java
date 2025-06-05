@@ -33,4 +33,21 @@ public class CityService {
         return cityRepository.findById(id)
                 .map(cityMapperEntity::toDomain);
     }
+    public CityDomain createCity(CityDomain cityDomain) {
+        validateCity(cityDomain);
+        CityEntity cityEntity = cityMapperEntity.toEntity(cityDomain);
+        CityEntity savedEntity = cityRepository.save(cityEntity);
+        return cityMapperEntity.toDomain(savedEntity);
+    }
+
+    private void validateCity(CityDomain cityDomain) {
+        if (cityDomain.getName() == null || cityDomain.getName().isEmpty()) {
+            throw new IllegalArgumentException("El nombre de la ciudad no puede estar vacío.");
+        }
+    }
+    public void deleteCity(UUID id) {
+        CityEntity cityEntity = cityRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Ciudad no encontrada con ID: " + id));
+        cityRepository.delete(cityEntity);
+    }
 }
