@@ -19,6 +19,10 @@ public interface IReviewRepository extends JpaRepository<ReviewEntity, UUID> {
 
     List<ReviewEntity> findByRatingGreaterThanEqual(Double rating);
 
+    ReviewEntity findByUserIdAndRouteId(UUID userId, UUID routeId);
+
+    ReviewEntity findByUserIdAndExperienceId(UUID userId, UUID experienceId);
+
     boolean existsByUserIdAndRouteId(UUID userId, UUID routeId);
 
     boolean existsByUserIdAndExperienceId(UUID userId, UUID experienceId);
