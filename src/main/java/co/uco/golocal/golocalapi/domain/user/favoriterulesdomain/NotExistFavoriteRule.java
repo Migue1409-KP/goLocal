@@ -15,7 +15,7 @@ public class NotExistFavoriteRule {
 
     public void execute(UUID experienceId, UUID userId) {
         if (iFavoriteRepository.existsByExperienceIdAndUserId(experienceId, userId)) {
-            throw new IllegalArgumentException("Favorite with experienceId " + experienceId + " and userId " + userId + " does not exist.");
+            throw new IllegalArgumentException("Favorite with experienceId " + experienceId + " and userId " + userId + " exist yet.");
         }
     }
 }
