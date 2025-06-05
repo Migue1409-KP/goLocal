@@ -14,5 +14,5 @@ import java.util.UUID;
 public class CityDTO {
     private UUID id;
     private String name;
-    private UUID stateId;
+    private UUID state;
 }
